@@ -1,0 +1,1 @@
+fasm src\main.asm
