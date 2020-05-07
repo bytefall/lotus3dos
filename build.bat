@@ -1,1 +1,1 @@
-fasm src\main.asm
+fasm src\main.asm .lotus\lotus.exe

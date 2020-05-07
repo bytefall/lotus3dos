@@ -1,0 +1,16 @@
+root = true
+
+# Default
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+tab_width = 4
+indent_style = tab
+indent_size = tab
+trim_trailing_whitespace = true
+
+# Assembly
+[*.{s,asm,inc}]
+indent_style = tab
+tab_width = 4
