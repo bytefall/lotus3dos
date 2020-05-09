@@ -20,12 +20,12 @@ loc_D0E5:
 	call	sub_D161
 	mov		byte [byte_3D6A], 0FFh
 	retn
-; - fade_out -
 
 
 ; TODO: place missing functions here
 
 
+;
 ; Fades in/out some palette colors
 ;
 ; input:
@@ -60,7 +60,6 @@ loc_D140:
 	mov		[word_3D70], bp
 	mov		word [word_3D6E], 0FFFFh
 	retn
-; - fade_by_color -
 
 
 ;
@@ -71,7 +70,6 @@ sub_D161:							; D161
 	cmp		word [word_3D70], 0
 	jnz		short sub_D161
 	retn
-; - sub_D161 -
 
 
 ;
@@ -81,7 +79,6 @@ sub_D16C:							; D16C
 	cmp		word [word_3D6E], 0
 	jnz		short sub_D16C
 	retn
-; - sub_D16C -
 
 
 ;
@@ -103,15 +100,15 @@ loc_D17F:
 	mov		al, ah
 	stosb
 	loop	loc_D17F
-
 	retn
-; - sub_D174 -
 
 
+;
 ; copy palette
 ;
 ; input:
 ; si - where palette is stored
+;
 sub_D18C:							;D18C
 	call	sub_D161
 	cmp		si, 7256h
@@ -129,7 +126,6 @@ loc_D19F:
 
 	mov		word [word_3D6E], 0FFFFh
 	retn
-; - sub_D18C -
 
 
 ;
@@ -148,7 +144,6 @@ loc_D1CC:
 	dec		word [word_3D70]
 	jz		loc_D1E9
 	jmp		sub_D174
-; - sub_D1B6 -
 
 
 ;
@@ -168,11 +163,10 @@ loc_D1E9:
 	mov		word [word_3D6E], 0
 	mov		word [word_3D70], 0
 	retn
-; - sub_D1D7 -
 
 
 ;
-; set_video_mode_and_timer
+; Sets vga 320x200 mode.
 ;
 set_video_mode_and_timer:			; D1F6
 	in		al, 40h					; Timer 8253-5 (AT: 8254.2).
@@ -447,7 +441,6 @@ loop_myself:
 loc_D377:
 	sti
 	retn
-; - set_video_mode_and_timer -
 
 
 word_D379:			dw ?		; D379
@@ -469,7 +462,6 @@ sub_D37B:						; D37B
 								; si - where palette is stored
 	mov		byte [byte_3D7C], 0FFh
 	retn
-; - sub_D37B -
 
 
 ;
@@ -491,4 +483,3 @@ loc_D3AE:
 	int		10h					; - VIDEO - SET VIDEO MODE
 								; AL = mode
 	retn
-; - sub_D396 -

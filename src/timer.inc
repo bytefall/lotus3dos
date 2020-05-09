@@ -8,7 +8,6 @@ sub_D3B6:						; D3B6
 	; mov		[es:word_90], unk_D3DA
 	; mov		[es:word_92], cs
 	retn
-; - sub_D3B6 -
 
 
 ;
@@ -23,7 +22,6 @@ sub_D3C7:						; D3C7
 	; mov		ax, [word_3D80]
 	; mov		[es:word_92], ax
 	retn
-; - sub_D3C7 -
 
 
 ;
@@ -40,7 +38,6 @@ sub_D3DD:						; D3DD
 	; mov		[es:word_26], cs
 	; sti
 	retn
-; - sub_D3DD -
 
 
 ;
@@ -53,8 +50,8 @@ sub_D3F3:						; D3F3
 	sub		ax, ax
 	mov		cx, 64
 	rep stosw
-retn
-; - sub_D3F3 -
+	retn
+
 
 ;
 ; sub_D400
@@ -84,7 +81,6 @@ loc_D414:
 
 locret_D420:
 	retn
-; - sub_D400 -
 
 
 ;
@@ -114,7 +110,6 @@ locret_D441:
 return_no_key:
 	sub		ax, ax
 	retn
-; - sub_D421 -
 
 
 ;
@@ -158,15 +153,15 @@ loc_D48A:
 								; Return: ZF clear if character in buffer
 								; AH = scan code, AL = character
 								; ZF set if no character in buffer
-	jz		loc_D499			; iret
+	jz		iret_D499
 	mov		ah, 0
 	int		16h					; KEYBOARD - READ CHAR FROM BUFFER, WAIT IF EMPTY
 								; Return: AH = scan code, AL = character
 	mov		[word_3E08], ax
 	jmp		loc_D48A
 
-loc_D499:
-	pop		es					; iret
+iret_D499:
+	pop		es
 	pop		ds
 	popa
 	iret
@@ -201,8 +196,7 @@ loc_D49D:
 								; 5: 0=enable I/O channel check
 								; 6: 0=hold keyboard clock low
 								; 7: 0=enable kbrd
-	jmp		loc_D499			; iret
-; - sub_D445 -
+	jmp		iret_D499
 
 
 ;
@@ -229,7 +223,6 @@ set_timer:						; D4AF
 	mov		[es:tmp_cs], cs
 	sti
 	retn
-; - set_timer -
 
 
 ;
@@ -252,7 +245,6 @@ sub_D4E3:						; D4E3
 	mov		[es:tmp_cs], ax
 	sti
 	retn
-; - sub_D4E3 -
 
 
 ;
@@ -429,7 +421,6 @@ loc_D670:
 	pop		ds
 	popa
 	iret
-; - sub_D508 -
 
 
 ;
@@ -483,7 +474,6 @@ loc_D73C:
 	pop		bx
 	pop		ax
 	retn
-; - sub_D6F9 -
 
 
 ;
@@ -537,7 +527,6 @@ sub_D740:						; D740
 	xchg	sp, [word_3E20]
 	and		word [word_3E1C], 7FFFh
 	retn
-; - sub_D740 -
 
 
 ;
@@ -625,7 +614,6 @@ sub_D7E9:
 	pop		ds
 	popa
 	iret
-; - sub_D7E9 -
 
 
 ;
@@ -638,7 +626,6 @@ sub_D915:						; D915
 	push	ax
 	mov		ax, sub_D926
 	jmp		sub_D740
-; - sub_D915 -
 
 
 ;
@@ -647,7 +634,6 @@ sub_D915:						; D915
 sub_D926:						; D926
 	call	sub_D7E9
 	jmp		sub_D926
-; - sub_D926 -
 
 
 ;
@@ -675,7 +661,6 @@ loc_D953:
 	mov		[byte_16FE], al
 	mov		[byte_1715], ah
 	retn
-; - sub_D92B -
 
 
 ;
@@ -695,7 +680,6 @@ sub_D962:						; D962
 	call	sub_D989
 	mov		[byte_1715], al
 	retn
-; - sub_D962 -
 
 
 ;
@@ -712,7 +696,6 @@ sub_D989:						; D989
 	and		al, 0F3h
 	or		al, ah
 	retn
-; - sub_D989 -
 
 
 ;
@@ -733,7 +716,6 @@ loc_D9A6:
 	shr		dl, 2
 	mov		al, dl
 	retn
-; - sub_D99E -
 
 
 ;
@@ -765,7 +747,6 @@ sub_D9B4:						; D9B4
 
 locret_D9EA:
 	retn
-; - sub_D9B4 -
 
 
 ;
@@ -849,4 +830,3 @@ loc_DA6C:
 
 locret_DA93:
 	retn
-; - sub_D9EB -

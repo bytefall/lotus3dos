@@ -29,8 +29,7 @@ loc_DAC2:
 	mov		byte [bx + 172Ch], 0FFh
 	cmp		si, 171Dh
 	jb		loc_DAC2
-retn
-; - sub_DA94 -
+	retn
 
 
 ;
@@ -166,7 +165,6 @@ loc_DB9D:
 	inc		dh
 	jnz		loc_DB5A
 	retn
-; - sub_DB28 -
 
 
 ;
@@ -197,11 +195,10 @@ loc_DBC0:
 loc_DBD3:
 	mov		si, create_error
 	jmp		loc_DC60
-; - sub_DBB4 -
 
 
 ;
-; Opens a file
+; Opens a file.
 ;
 file_open:						; DBD9
 	mov		[file_name], dx
@@ -220,11 +217,10 @@ file_open_err:
 								; BX = file handle
 	mov		si, open_error
 	jmp		loc_DC60
-; - file_open -
 
 
 ;
-; Reads a file
+; Reads a file.
 ;
 ; ax:dx - buffer,
 ; bx - file handler,
@@ -249,7 +245,6 @@ file_read_err:
 								; BX = file handle
 	mov		si, read_error
 	jmp		loc_DC60
-; - file_read -
 
 
 ;
@@ -283,7 +278,6 @@ loc_DC19:
 loc_DC2B:
 	mov		si, close_error
 	jmp		loc_DC60
-; - unk_DC0B -
 
 
 ;
@@ -315,7 +309,6 @@ loc_DC43:
 
 locret_DC4E:
 	retn
-; - printf -
 
 
 ;
@@ -355,7 +348,6 @@ loc_DC70:
 	mov		al, [byte_3EBB]
 	mov		ah, 4Ch
 	int		21h					; DOS - 2+ - QUIT WITH EXIT CODE (EXIT)
-; - sub_DC4F -
 
 
 ;
@@ -376,4 +368,3 @@ loc_E995:
 	out		20h, al
 	pop		ax
 	iret
-; - sub_E987 -

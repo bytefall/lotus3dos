@@ -1,7 +1,5 @@
-; archive.inc
-
 ; 
-; open_and_read_data_file
+; Opens DAT file and reads 2816 bytes from the header.
 ;
 open_and_read_data_file:			; C98C
 	mov		dx, arc_file_name		; "LOTUS.DAT"
@@ -15,4 +13,3 @@ open_and_read_data_file:			; C98C
 									; bx - file handler,
 									; cx - num of bytes to read
 	retn
-; - open_and_read_data_file -
