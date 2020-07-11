@@ -29,7 +29,7 @@ loc_DAC2:
 	mov		byte [bx + 172Ch], 0FFh
 	cmp		si, 171Dh
 	jb		loc_DAC2
-	retn
+	ret
 
 
 ;
@@ -74,7 +74,7 @@ loc_DB18:
 	rcl		al, 1
 
 locret_DB27:
-	retn
+	ret
 
 
 ;
@@ -83,12 +83,12 @@ locret_DB27:
 sub_DB28:						; DB28
 	call	sub_DA94
 	mov		ax, [word_3E16]
-	mov		di, arr_3EEE
+	mov		di, rnd_3EEE
 	push	ds
 	pop		es
-	mov		cx, 16
+	mov		cx, 8 * 2			; fill rnd_3EEE and rnd_3EFE
 	rep stosw
-	mov		bp, 0C00h			; TODO: change to offset?
+	mov		bp, 0C00h
 
 loc_DB3B:
 	mov		ax, bp
@@ -102,10 +102,10 @@ loc_DB42:
 
 	mov		[bp], ah
 	inc		bp
-	cmp		bp, 0D00h			; TODO: same here?
+	cmp		bp, 0D00h
 	jb		loc_DB3B
 
-	push	cs
+	push	cs					; fill cs:0000 with a code that draws bitmap
 	pop		es
 	mov		di, 0
 	mov		dh, 0
@@ -156,21 +156,16 @@ loc_DB9D:
 	and		cx, cx
 	jg		loc_DB60
 
-	; TODO:
-	; mov		si, arr_DBB4
-	mov		cx, 14
-	rep movs byte [es:di], [cs:si]
+	mov		si, raw_DBB4
+	mov		cx, raw_DBC2 - raw_DBB4		; = 14
+	rep movs byte [es:di], [cs:si]		; fill the rest of the code
 	pop		di
-	add		di, 20h
+	add		di, 32				; every bitmap code snippet is 32 bytes long
 	inc		dh
 	jnz		loc_DB5A
-	retn
+	ret
 
-
-;
-; sub_DBB4
-;
-sub_DBB4:						; DBB4
+raw_DBB4:
 	dec		cl
 	jz		loc_DBC0
 
@@ -182,7 +177,8 @@ sub_DBB4:						; DBB4
 loc_DBC0:
 	jmp		bx
 
-	mov		[file_name], dx
+raw_DBC2:
+	mov		[err_str_ptr], dx
 	mov		ax, 3C00h
 	mov		cx, 0
 	int		21h					; DOS - 2+ - CREATE A FILE WITH HANDLE (CREAT)
@@ -190,7 +186,7 @@ loc_DBC0:
 								; DS:DX -> ASCIZ filename (may include drive and path)
 	jb		loc_DBD3
 	mov		bx, ax
-	retn
+	ret
 
 loc_DBD3:
 	mov		si, create_error
@@ -201,7 +197,7 @@ loc_DBD3:
 ; Opens a file.
 ;
 file_open:						; DBD9
-	mov		[file_name], dx
+	mov		[err_str_ptr], dx
 	mov		ax, 3D02h
 	int		21h					; DOS - 2+ - OPEN DISK FILE WITH HANDLE
 								; DS:DX -> ASCIZ filename
@@ -209,7 +205,7 @@ file_open:						; DBD9
 								; 2 - read & write
 	jb		file_open_err
 	mov		bx, ax
-	retn
+	ret
 
 file_open_err:
 	mov		ax, 3E00h
@@ -237,7 +233,7 @@ file_read:						; DBF1
 	pop		bx
 	mov		cx, ax
 	jb		file_read_err
-	retn
+	ret
 
 file_read_err:
 	mov		ax, 3E00h
@@ -260,7 +256,7 @@ unk_DC0B:						; DC0B
 	pop		ds
 	pop		bx
 	jb		loc_DC19
-	retn
+	ret
 
 loc_DC19:
 	mov		ax, 3E00h
@@ -273,7 +269,7 @@ loc_DC19:
 	int		21h					; DOS - 2+ - CLOSE A FILE WITH HANDLE
 								; BX = file handle
 	jb		loc_DC2B
-	retn
+	ret
 
 loc_DC2B:
 	mov		si, close_error
@@ -302,13 +298,13 @@ printf:							; DC30
 
 loc_DC43:
 	push	si
-	mov		si, [file_name]
+	mov		si, [err_str_ptr]
 	call	printf				; (si* string)
 	pop		si
 	jmp		printf				; (si* string)
 
 locret_DC4E:
-	retn
+	ret
 
 
 ;
@@ -318,28 +314,27 @@ sub_DC4F:						; DC4F
 	push	ax
 	mov		ax, [word_63BA]		; unpacked data
 	cmp		ax, [word_63BE]		; copy of unpacked data
-	jnb		loc_DC5B
+	jae		loc_DC5B
 	pop		ax
-	retn
+	ret
 
 loc_DC5B:
 	mov		si, memory_error
 	jmp		loc_DC60
 
 loc_DC60:
-	; mov		ds, [cs:word_5162]
+	mov		ds, [cs:word_5162]
 	mov		[word_3EB9], si
 	mov		byte [byte_3EBB], 1
 	jmp		loc_DC70
 
 loc_DC70:
-	; mov		ds, [cs:word_5162]
+	mov		ds, [cs:word_5162]
 	cld
-	; TODO:
 	call	sub_D396
-	; call	sub_209C
+	call	sub_209C
 	call	sub_D3B6
-	; call	sub_5080
+	; call	sub_5080	TODO:
 	call	sub_D3C7
 
 	mov		si, [word_3EB9]
@@ -348,23 +343,3 @@ loc_DC70:
 	mov		al, [byte_3EBB]
 	mov		ah, 4Ch
 	int		21h					; DOS - 2+ - QUIT WITH EXIT CODE (EXIT)
-
-
-;
-; sub_E987 - is this some kind of BIOS function?
-;
-sub_E987:						; E987
-	push	ax
-	in		al, 60h
-	mov		ah, 4Fh
-	stc
-	int		15h
-	jnc		loc_E995
-	;callback 0011  (IRQ 1 Keyboard) ; FE381100
-
-loc_E995:
-	cli
-	mov		al, 20h
-	out		20h, al
-	pop		ax
-	iret

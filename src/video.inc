@@ -1,28 +1,97 @@
+; if ax == 13 { 50 /* 50 = 0x32 = '2' */ } else if ax > 13 { (ax - 1) << 2 } else { ax << 2 }
 ;
-; fade_out
+; input:
+; ax - word
 ;
-fade_out:							; D0D8
-	mov		si, 7256h
+; output:
+; ax - converted word
+sub_D097:								; D097
+	cmp		ax, 0Dh
+	jz		loc_D0A3
+	js		loc_D09F
+	dec		ax
+
+loc_D09F:
+	shl		ax, 2
+	ret
+
+loc_D0A3:
+	mov		ax, 32h						; '2'
+	ret
+
+
+;
+; Fade IN
+;
+fade_in:								; D0A7
+	mov		si, palette
 	cmp		byte [byte_3D6A], 0
-	jz		short loc_D0E5
-	jmp		sub_D18C				; copy palette
-									;
-									; input:
-									; si - where palette is stored
+	jnz		loc_D0B4
+	jmp		sub_D18C
+
+loc_D0B4:
+	mov		word [word_3D6C], 20
+	call	fade_by_color
+	call	sub_D161
+	mov		byte [byte_3D6A], 0
+	ret
+
+
+;
+;
+;
+sub_D0C6:								; D0C6
+	mov		word [word_3D6C], 14h
+	call	fade_by_color
+	call	sub_D161
+	mov		byte [byte_3D6A], 0
+	ret
+
+
+;
+; Fades out.
+;
+fade_out:								; D0D8
+	mov		si, palette2
+	cmp		byte [byte_3D6A], 0
+	jz		loc_D0E5
+	jmp		sub_D18C
 
 loc_D0E5:
 	mov		word [word_3D6C], 20
-	call	fade_by_color			; Fades in/out some palette colors
-									;
-									; input:
-									; ds:si - palette
-									; word_3D6C - fade speed (greater = slower)
+	call	fade_by_color
 	call	sub_D161
 	mov		byte [byte_3D6A], 0FFh
-	retn
+	ret
 
 
-; TODO: place missing functions here
+;
+;
+;
+fade_in2:								; D0F7
+	mov     si, palette
+	cmp     byte [byte_3D6A], 0
+	jnz     loc_D104
+	jmp     sub_D18C
+
+loc_D104:
+	mov     word [word_3D6C], 20
+	call    fade_by_color
+	mov     byte [byte_3D6A], 0
+	ret
+
+
+;
+;
+;
+fade_out2:								; D113
+	mov		si, palette2
+	cmp		byte [byte_3D6A], 0
+	jnz		sub_D18C
+	mov		word [word_3D6C], 20
+	call	fade_by_color
+	mov		byte [byte_3D6A], 0FFh
+	ret
 
 
 ;
@@ -59,7 +128,7 @@ loc_D140:
 	call	sub_D174
 	mov		[word_3D70], bp
 	mov		word [word_3D6E], 0FFFFh
-	retn
+	ret
 
 
 ;
@@ -68,8 +137,8 @@ loc_D140:
 sub_D161:							; D161
 	call	sub_D6F9
 	cmp		word [word_3D70], 0
-	jnz		short sub_D161
-	retn
+	jnz		sub_D161
+	ret
 
 
 ;
@@ -77,8 +146,8 @@ sub_D161:							; D161
 ;
 sub_D16C:							; D16C
 	cmp		word [word_3D6E], 0
-	jnz		short sub_D16C
-	retn
+	jnz		sub_D16C
+	ret
 
 
 ;
@@ -100,7 +169,7 @@ loc_D17F:
 	mov		al, ah
 	stosb
 	loop	loc_D17F
-	retn
+	ret
 
 
 ;
@@ -111,9 +180,9 @@ loc_D17F:
 ;
 sub_D18C:							;D18C
 	call	sub_D161
-	cmp		si, 7256h
+	cmp		si, palette2
 	mov		byte [byte_3D6A], 0FFh
-	jz		short loc_D19F
+	jz		loc_D19F
 	mov		byte [byte_3D6A], 0
 
 loc_D19F:
@@ -125,7 +194,7 @@ loc_D19F:
 	rep movsb
 
 	mov		word [word_3D6E], 0FFFFh
-	retn
+	ret
 
 
 ;
@@ -157,12 +226,12 @@ sub_D1D7:							; D1D7
 	mov		si, arr_6F56
 	mov		cx, 256*3
 	rep outsb
-	retn
+	ret
 
 loc_D1E9:
 	mov		word [word_3D6E], 0
 	mov		word [word_3D70], 0
-	retn
+	ret
 
 
 ;
@@ -195,27 +264,27 @@ set_video_mode_and_timer:			; D1F6
 									; BX = number of buttons
 
 	mov		[byte_3E2C], al
-	; mov		es, cs:word_5160		; es = ds_from_packer = 0x0192
-	; mov		ax, es:word_2			; es = 0x9FFF
-	; sub		ax, 4371
-	; mov		[word_63BC], ax			; video memory for A000, = 0x8EEC
-	; sub		ax, 256
-	; mov		[word_63BE], ax			; copy of unpacked data, = 0x8DEC
-	; cli
-	; sub		ax, ax
-	; mov		es, ax
-	; mov		ax, es:word_24			; = 0xE987
-	; mov		[word_3D82], ax
-	; mov		ax, es:word_26			; = 0xF000
-	; mov		[word_3D84], ax
-	; mov		ax, es:word_20			; = 0xFEA5
-	; mov		[word_3E0A], ax
-	; mov		ax, es:tmp_cs			; = 0xF000
-	; mov		[word_3E0C], ax
-	; mov		ax, es:word_90			; = 0x0110
-	; mov		[word_3D7E], ax
-	; mov		ax, es:word_92			; = 0x0118
-	; mov		[word_3D80], ax
+	mov		es, [cs:word_5160]		; es = ds_from_packer = 0x0192
+	mov		ax, [es:2]				; es = 0x9FFF
+	sub		ax, 4371
+	mov		[word_63BC], ax			; video memory for A000, = 0x8EEC
+	sub		ax, 256
+	mov		[word_63BE], ax			; copy of unpacked data, = 0x8DEC
+	cli
+	sub		ax, ax
+	mov		es, ax
+	mov		ax, [es:24h]			; = 0xE987
+	mov		[word_3D82], ax
+	mov		ax, [es:26h]			; = 0xF000
+	mov		[word_3D84], ax
+	mov		ax, [es:20h]			; = 0xFEA5
+	mov		[word_3E0A], ax
+	mov		ax, [es:22h]			; = 0xF000
+	mov		[word_3E0C], ax
+	mov		ax, [es:90h]			; = 0x0110
+	mov		[word_3D7E], ax
+	mov		ax, [es:92h]			; = 0x0118
+	mov		[word_3D80], ax
 	mov		al, 10110000b
 	out		43h, al
 	mov		al, 0
@@ -440,14 +509,14 @@ loop_myself:
 
 loc_D377:
 	sti
-	retn
+	ret
 
 
 word_D379:			dw ?		; D379
 
 
 ;
-; sub_D37B
+;
 ;
 sub_D37B:						; D37B
 	call	sub_D3B6
@@ -455,13 +524,10 @@ sub_D37B:						; D37B
 	mov		ax, sub_D926
 	call	sub_D740
 	call	set_timer
-	mov		si, 7256h
-	call	sub_D18C			; copy palette
-								;
-								; input:
-								; si - where palette is stored
+	mov		si, palette2
+	call	sub_D18C
 	mov		byte [byte_3D7C], 0FFh
-	retn
+	ret
 
 
 ;
@@ -482,4 +548,4 @@ loc_D3AE:
 	mov		ah, 0
 	int		10h					; - VIDEO - SET VIDEO MODE
 								; AL = mode
-	retn
+	ret

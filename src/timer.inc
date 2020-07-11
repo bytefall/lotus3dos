@@ -2,26 +2,29 @@
 ; sub_D3B6
 ;
 sub_D3B6:						; D3B6
-	; might not need this code (see set_video_mode_and_timer)
-	; sub		ax, ax
-	; mov		es, ax
-	; mov		[es:word_90], unk_D3DA
-	; mov		[es:word_92], cs
-	retn
+	sub		ax, ax
+	mov		es, ax
+	mov		word [es:90h], sub_D3DA
+	mov		[es:92h], cs
+	ret
 
 
 ;
 ; sub_D3C7
 ;
 sub_D3C7:						; D3C7
-	; might not need this code (see set_video_mode_and_timer)
-	; sub		ax, ax
-	; mov		es, ax
-	; mov		ax, [word_3D7E]
-	; mov		[es:word_90], ax
-	; mov		ax, [word_3D80]
-	; mov		[es:word_92], ax
-	retn
+	sub		ax, ax
+	mov		es, ax
+	mov		ax, [word_3D7E]
+	mov		[es:90h], ax
+	mov		ax, [word_3D80]
+	mov		[es:92h], ax
+	ret
+
+
+sub_D3DA:
+	sub		ax, ax
+	iret
 
 
 ;
@@ -29,43 +32,41 @@ sub_D3C7:						; D3C7
 ;
 sub_D3DD:						; D3DD
 	call	sub_D3F3
-	; might not need this code (see set_video_mode_and_timer)
-	; cli
-	; sub		ax, ax
-	; mov		es, ax
-	; mov		ax, sub_D445
-	; mov		[es:word_24], ax
-	; mov		[es:word_26], cs
-	; sti
-	retn
+	cli
+	sub		ax, ax
+	mov		es, ax
+	mov		ax, sub_D445
+	mov		[es:24h], ax
+	mov		[es:26h], cs
+	sti
+	ret
 
 
 ;
 ; sub_D3F3
 ;
 sub_D3F3:						; D3F3
-	mov		di, arr_3D88
+	mov		di, byte_3D88
 	push	ds
 	pop		es
 	sub		ax, ax
 	mov		cx, 64
 	rep stosw
-	retn
+	ret
 
 
 ;
 ; sub_D400
 ;
 sub_D400:						; D400
-	; might not need this code (see set_video_mode_and_timer)
-	; cli
-	; sub		ax, ax
-	; mov		es, ax
-	; mov		ax, [word_3D82]
-	; mov		[es:word_24], ax
-	; mov		ax, [word_3D84]
-	; mov		[es:word_26], ax
-	; sti
+	cli
+	sub		ax, ax
+	mov		es, ax
+	mov		ax, [word_3D82]
+	mov		[es:24h], ax
+	mov		ax, [word_3D84]
+	mov		[es:26h], ax
+	sti
 
 loc_D414:
 	mov		ah, 1
@@ -73,14 +74,14 @@ loc_D414:
 								; Return: ZF clear if character in buffer
 								; AH = scan code, AL = character
 								; ZF set if no character in buffer
-	jz		locret_D420
+	jz		ret_D420
 	mov		ah, 0
 	int		16h					; KEYBOARD - READ CHAR FROM BUFFER, WAIT IF EMPTY
 								; Return: AH = scan code, AL = character
 	jmp		loc_D414
 
-locret_D420:
-	retn
+ret_D420:
+	ret
 
 
 ;
@@ -98,18 +99,18 @@ sub_D421:						; D421
 
 loc_D434:
 	and		ax, 11111111b
-	cmp		al, 61h ; 'a'
-	jb		locret_D441
-	cmp		al, 7Ah ; 'z'
-	ja		locret_D441
-	sub		al, 20h ; ' '
+	cmp		al, 61h				; 'a'
+	jb		ret_D441
+	cmp		al, 7Ah				; 'z'
+	ja		ret_D441
+	sub		al, 20h				; ' '
 
-locret_D441:
-	retn
+ret_D441:
+	ret
 
 return_no_key:
 	sub		ax, ax
-	retn
+	ret
 
 
 ;
@@ -119,32 +120,32 @@ sub_D445:						; D445
 	pusha
 	push	ds
 	push	es
-	; mov		ds, [cs:word_5162]
+	mov		ds, [cs:word_5162]
 	in		al, 60h				; AT Keyboard controller 8042.
 	mov		bl, al
 	mov		al, bl
 	sub		al, 80h
 	sbb		al, al
 	and		bx, 1111111b
-	cmp		bl, 60h ; '`'
+	cmp		bl, 60h
 	jz		loc_D475
-	cmp		bl, 2Ah ; '*'
+	cmp		bl, 2Ah
 	jz		loc_D475
 	mov		[byte_3D86], al
 	mov		[byte_3D87], bl
-	test	[bx + arr_3D88], al
+	test	[bx + byte_3D88], al
 	js		loc_D475
-	mov		[bx + arr_3D88], al
+	mov		[bx + byte_3D88], al
 
 loc_D475:
-	cmp		bl, 37h ; '7'
-	jz		short loc_D49D
+	cmp		bl, 37h
+	jz		loc_D49D
 	cmp		bl, 1Dh
-	jz		short loc_D49D
-	cmp		bl, 7Fh ; ''
-	jz		short loc_D49D
+	jz		loc_D49D
+	cmp		bl, 7Fh
+	jz		loc_D49D
 	pushf
-	call	far [word_3D82]			; E987
+	call	far [word_3D82]		; E987
 	cli
 
 loc_D48A:
@@ -219,10 +220,10 @@ set_timer:						; D4AF
 	sub		ax, ax
 	mov		es, ax
 	mov		ax, sub_D508
-	mov		[es:word_20], ax
-	mov		[es:tmp_cs], cs
+	mov		[es:20h], ax
+	mov		[es:22h], cs
 	sti
-	retn
+	ret
 
 
 ;
@@ -240,11 +241,11 @@ sub_D4E3:						; D4E3
 	sub		ax, ax
 	mov		es, ax
 	mov		ax, [word_3E0A]
-	mov		[es:word_20], ax
+	mov		[es:20h], ax
 	mov		ax, [word_3E0C]
-	mov		[es:tmp_cs], ax
+	mov		[es:22h], ax
 	sti
-	retn
+	ret
 
 
 ;
@@ -322,7 +323,7 @@ loc_D5CD:
 	mov		ax, [word_3D7A]
 	shr		ax, 2
 	sub		[word_3E14], ax
-	jnb		loc_D5E7
+	jae		loc_D5E7
 	mov		ax, [word_3D78]
 	add		[word_3E14], ax
 	pushf
@@ -353,7 +354,7 @@ loc_D608:
 	jnz		loc_D63E
 	mov		ax, ss
 	cmp		ax, [cs:word_5164]
-	jnz		loc_D63E
+	jne		loc_D63E
 	mov		bp, sp
 	cmp		word [bp + 56h], 01A2h
 	jnz		loc_D63E
@@ -473,11 +474,11 @@ loc_D73C:
 	pop		cx
 	pop		bx
 	pop		ax
-	retn
+	ret
 
 
 ;
-; sub_D740
+;
 ;
 sub_D740:						; D740
 	mov		ds, [cs:word_5162]
@@ -526,7 +527,7 @@ sub_D740:						; D740
 	push	word ptr ds:6390h
 	xchg	sp, [word_3E20]
 	and		word [word_3E1C], 7FFFh
-	retn
+	ret
 
 
 ;
@@ -660,7 +661,7 @@ loc_D953:
 	mov		[word_3E22], bx
 	mov		[byte_16FE], al
 	mov		[byte_1715], ah
-	retn
+	ret
 
 
 ;
@@ -679,7 +680,7 @@ sub_D962:						; D962
 	call	word [bx + 3E26h]
 	call	sub_D989
 	mov		[byte_1715], al
-	retn
+	ret
 
 
 ;
@@ -695,7 +696,7 @@ sub_D989:						; D989
 	or		ah, bh
 	and		al, 0F3h
 	or		al, ah
-	retn
+	ret
 
 
 ;
@@ -703,7 +704,7 @@ sub_D989:						; D989
 ;
 sub_D99E:						; D99E
 	sub		dx, dx
-	mov		bx, 3D88h
+	mov		bx, byte_3D88
 	mov		cx, 6
 
 loc_D9A6:
@@ -715,7 +716,7 @@ loc_D9A6:
 
 	shr		dl, 2
 	mov		al, dl
-	retn
+	ret
 
 
 ;
@@ -746,7 +747,7 @@ sub_D9B4:						; D9B4
 	or		al, dl
 
 locret_D9EA:
-	retn
+	ret
 
 
 ;
@@ -829,4 +830,4 @@ loc_DA6C:
 	shr		word [word_1722], 1
 
 locret_DA93:
-	retn
+	ret
