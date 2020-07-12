@@ -334,7 +334,7 @@ loc_DC70:
 	call	sub_D396
 	call	sub_209C
 	call	sub_D3B6
-	; call	sub_5080	TODO:
+	call	sub_5080
 	call	sub_D3C7
 
 	mov		si, [word_3EB9]

@@ -1,4 +1,601 @@
 ;
+; P2: Draws PAUSED, DEMO, RACE COMPLETED, TURBO ZONE, etc.
+;
+sub_8E0E:
+	jmp     draw_race_text
+
+
+;
+; Draws PAUSED, DEMO, RACE COMPLETED, TURBO ZONE, etc.
+;
+draw_race_text:
+	mov		si, [word_3ED8]
+	cmp		word [is_paused], 0
+	jz		loc_8E21
+	mov		di, paused_txt
+	jmp		print_text
+
+loc_8E21:
+	cmp		word [playing_demo], 0
+	jz		loc_8E37
+	mov		di, demo_txt
+	test	word [word_3EE6], 16
+	jz		ret_8E36
+	jmp		print_text
+
+ret_8E36:
+	ret
+
+loc_8E37:
+	cmp		word [si + 26], 0
+	jz		loc_8E6D
+	mov		di, race_completed_txt
+	cmp		word [si + 26], 2
+	jne		loc_8E49
+	jmp		print_text
+
+loc_8E49:
+	cmp		word [word_3EE4], 0
+	jnz		loc_8E5E
+	cmp		word [si + 32], 0
+	jz		loc_8E59
+	jmp		print_text
+
+loc_8E59:
+	mov		di, out_of_time_txt
+	jmp		print_text
+
+loc_8E5E:
+	mov		di, race_over_txt
+	cmp		word [si + 222], 0
+	jnz		print_text
+	mov		di, out_of_fuel_txt
+	jmp		print_text
+
+loc_8E6D:
+	cmp		word [si + 188], 0
+	jz		loc_8E79
+	mov		di, turbo_zone_txt
+	jmp		print_text
+
+loc_8E79:
+	cmp		word [si + 168], 0
+	jz		loc_8E8C
+	mov		di, checkpoint_txt
+	test	word [si + 168], 8
+	jne		print_text
+	ret
+
+loc_8E8C:
+	cmp		word [si + 222], 5C00h
+	jae		loc_8EA0
+	mov		di, low_fuel_txt
+	test	word [word_3EE6], 16
+	je		print_text
+	ret
+
+loc_8EA0:
+	cmp		word [num_of_players], 0
+	jz		ret_8ED6
+	mov		di, word_4034
+	mov		bp, p2_name
+	cmp		si, di
+	jnz		loc_8EB7
+	mov		di, word_3F3A
+	mov		bp, p1_name
+
+loc_8EB7:
+	mov		ax, [di + 2]
+	sub		ax, [si + 2]
+	mov		ax, [di]
+	sbb		ax, [si]
+	cmp		ax, 4
+	jae		ret_8ED6
+	mov		si, bp
+	mov		di, ahead_txt
+	push	di
+	push	ds
+	pop		es
+	mov		cx, 6
+	rep movsw
+	pop		di
+	jmp		print_text
+
+ret_8ED6:
+	ret
+
+print_text:
+	mov		ch, 1
+	mov		bx, 15
+	jmp		print_string
+
+
+; Prints a text.
+;
+; input:
+; di - string to write
+; bx - y
+; ch - unpacked texture index
+print_string:							; 8EDE
+	push	ds
+	pop		es
+	mov		[print_font_ix], ch
+	mov		cx, 40
+	mov		al, 20h
+	repe scasb
+	dec		di							; locate first non-space character
+	mov		si, di
+	mov		di, print_tmp_str
+	push	di
+
+next_char:
+	cmp		byte [si], 0				; "\0"
+	jz		loc_8F0C
+	cmp		word [si], 0020h			; " \0"
+	jz		loc_8F0C
+	cmp		word [si], 2020h			; "  "
+	jnz		loc_8F05
+	inc		si
+	jmp		next_char
+
+loc_8F05:
+	movsb
+	cmp		di, print_font_ix			; < 40 chars?
+	jb		next_char
+
+loc_8F0C:
+	mov		ax, si
+	pop		si
+	inc		ax
+	push	ax
+	mov		dx, di
+	sub		dx, si						; dx = strlen
+	jz		exit_8F33
+	mov		ax, dx
+	shl		ax, 3
+	neg		ax
+	add		ax, 320
+	shr		ax, 1
+	mov		ch, [print_font_ix]
+
+draw_one_more_char:
+	mov		cl, [si]
+	inc		si							; x = (!(strlen << 3) + 320) >> 1
+	call	draw_char_small
+	add		ax, 8						; x += 8
+	dec		dx
+	jnz		draw_one_more_char
+
+exit_8F33:
+	pop		di
+	ret
+
+
+loc_8F35:
+	jmp		brandish_the_flag
+
+
+;
+; Brandishes the flag.
+;
+brandish_the_flag:						; 8F37
+	mov		si, [word_3ED8]
+	mov		ax, [word_3EE0]
+	mov		cl, 0
+	and		ax, ax
+	js		loc_8F83
+	cmp		ax, 75
+	jae		loc_8F57
+	mov		cl, 14
+	cmp		al, 20
+	jae		loc_8F83
+	shr		al, 2
+	inc		ax
+	mov		cl, al
+	jmp		loc_8F83
+
+loc_8F57:
+	mov		ax, [si + 216]
+	and		ax, ax
+	jz		loc_8F73
+	cmp		ax, 75
+	jae		loc_8F73
+	mov		cl, 14
+	cmp		al, 24
+	jae		loc_8F83
+	shr		al, 2
+	add		al, 6
+	mov		cl, al
+	jmp		loc_8F83
+
+loc_8F73:
+	cmp		word [si + 228], 0
+	jz		ret_8FA2
+	cmp		word [si + 222], 0FFFFh
+	jz		ret_8FA2
+	mov		cl, 12
+
+loc_8F83:
+	push	cx
+	mov		ax, 224
+	mov		bx, 29
+	mov		ch, 2
+	mov		cl, 13						; draw background frame
+	call	bmp_draw
+	pop		cx
+	cmp		cl, 13
+	ja		ret_8FA2
+	mov		ax, 224
+	mov		bx, 29
+	mov		ch, 2						; draw a flag
+	call	bmp_draw
+
+ret_8FA2:
+	ret
+
+
+loc_8FA3:
+	jmp		draw_race_info
+
+
+;
+; Draws speed, gear, time, laps left, gas.
+;
+draw_race_info:							; 8FA5
+	mov		si, [word_3ED8]
+	mov		ax, 9A7h
+	mul		word [si + 14]				; 16 kmh = 01A9h
+										; 1 kmh ~= 20h
+	mov		ax, dx
+	mov		ch, 1						; C01
+	mov		bl, 10
+	div		bl
+	mov		cl, ah
+	push	cx
+	mov		ah, 0
+	div		bl
+	mov		cl, ah
+	push	cx
+	mov		cl, al						; 1-st speed number
+	mov		ax, 2
+	mov		bx, 2
+	call	bmp_draw
+	pop		cx							; 2-nd speed number
+	add		ax, 8
+	call	bmp_draw
+	pop		cx							; 3-rd speed number
+	add		ax, 8
+	call	bmp_draw
+	mov		cl, 37						; hyphen
+	add		ax, 8
+	call	bmp_draw
+	mov		cl, 20						; K
+	add		ax, 8
+	call	bmp_draw
+	mov		cl, 22						; M
+	add		ax, 8
+	call	bmp_draw
+	mov		cl, 17						; H
+	add		ax, 8
+	call	bmp_draw
+	mov		cl, 37						; hyphen
+	add		ax, 8
+	call	bmp_draw
+	mov		es, [word_63BC]
+	mov		di, 336 * 17 + 18
+	call	sub_9242
+	mov		dx, [si + 44]
+	shr		dx, 7
+	cmp		dx, 2Eh						; '.'
+	jb		loc_901A
+	mov		dx, 2Eh						; '.'
+
+loc_901A:
+	mov		bp, 0Ch
+
+loc_901D:
+	push	di
+	mov		cx, dx
+	jcxz	loc_9038
+	cmp		cx, 20h						; ' '
+	jb		loc_902A
+	mov		cx, 20h						; ' '
+
+loc_902A:
+	mov		al, 0E4h					; 'S'
+	rep stosb
+	mov		cx, dx
+	sub		cx, 20h						; ' '
+	jbe		loc_9038
+	inc		ax
+	rep stosb
+
+loc_9038:
+	mov		al, 0E0h					; 'a'
+	stosb
+	pop		di
+	add		di, 336
+	dec		bp
+	jnz		loc_901D
+	mov		cx, [si + 40]
+	inc		cx							; gear: 1, 2, 3, 4, 5
+	mov		ch, 0						; C00
+	mov		ax, 1
+	mov		bx, 29
+	call	bmp_draw
+	add		ax, 16
+	add		cl, 9						; st, nd, rd, th
+	call	bmp_draw
+	cmp		word [word_3EE4], 0
+	jnz		loc_9065
+	jmp		loc_90E9					; when Race::TimeLimit
+
+; draw gas level borders
+loc_9065:
+	mov		di, 336 * 6 + 270
+	mov		ax, 0E0E0h					; blackblack
+	mov		cx, 32
+	rep stosw							; top bounding line
+	mov		cx, 7
+
+loc_9073:
+	add		di, 335
+	stosb								; right bounding line
+	loop	loc_9073
+
+	add     di, 334
+	mov     cx, 32
+	std									; decrease DI on rep
+	rep stosw							; bottom bounding line
+	cld
+
+	sub     di, 334
+	mov     cx, 7
+
+loc_908C:
+	stosb								; left bounding line
+	sub		di, 337
+	loop	loc_908C
+
+; draw gas level
+	add		di, 337
+	mov		ax, [si + 222]
+	rol		ax, 6
+	and		ax, 3Fh
+	cmp		ax, 1
+	cmc
+	sbb		ax, 0
+	mov		dx, 8
+	cmp		ax, dx
+	jg		loc_90B1
+	mov		dx, ax
+
+loc_90B1:
+	sub		ax, dx
+	mov		bx, 16
+	cmp		ax, bx
+	jg		loc_90BC
+	mov		bx, ax
+
+loc_90BC:
+	sub		ax, bx
+	mov		bh, al
+	mov		bp, 7						; height = 7 pixels
+
+loc_90C3:
+	push	di
+	mov		cx, dx
+	jcxz	loc_90CC
+	mov		al, 0E5h					; light red
+	rep stosb
+
+loc_90CC:
+	mov		cl, bl
+	jcxz	loc_90D4
+	mov		al, 0E4h					; dark red
+	rep stosb
+
+loc_90D4:
+	mov		cl, bh
+	jcxz	loc_90DC
+	mov		al, 230					; green
+	rep stosb
+
+loc_90DC:
+	mov		al, 0E0h					; black
+	stosb								; right bounding line (inner)
+	pop		di
+	add		di, 336
+	dec		bp
+	jnz		loc_90C3
+	jmp		loc_9102
+
+loc_90E9:
+	mov		cx, 254
+	mov		bx, 2
+
+loc_90EF:
+	mov		dx, [si + 46]				; score
+	mov		ax, [si + 48]				; score
+	mov		bp, 10000
+	div		bp
+	push	dx
+	call	sub_9277					; draw right part (4 numbers)
+	pop		ax
+	call	sub_9277					; draw left part (4 numbers)
+
+loc_9102:
+	mov		ax, [si + 32]
+	cmp		word [word_3EE4], 0
+	jz		loc_9110
+	mov		ax, [si + 226]
+
+; draw remaining time when Race::TimeLimit
+loc_9110:
+	mov		cl, 10
+	div		cl
+	mov		ch, 0
+	mov		cl, ah
+	push	cx
+	mov		cl, al
+	mov		ax, 287
+	mov		bx, 29
+	jcxz	loc_9126
+	call	bmp_draw					; left number
+
+loc_9126:
+	pop		cx
+	add		ax, 16
+	call	bmp_draw					; right number
+	mov		es, [word_63BC]
+
+; draw track line borders
+	mov		di, 336 * 51 + 316
+	mov		bp, [num_of_tracks]
+	mov		ax, 0E0E0h					; blackblack
+	cmp		word [track_num], 1			; Night
+	je		loc_9150
+	cmp		word [track_num], 2			; Fog
+	je		loc_9150
+	cmp		word [track_num], 7			; Storm
+	jne		loc_9153
+
+loc_9150:
+	mov		ax, 0E2E2h					; lightgraylightgray
+
+loc_9153:
+	mov		cx, 9						; 18 px wide
+	rep stosw							; draw top line
+	add		di, 318
+	stosb								; draw left (top) px
+	add		di, 16
+	stosb								; draw right (top) px
+	add		di, 318
+	stosb								; draw left (bottom) px
+	add		di, 16
+	stosb								; draw right (bottom) px
+	add		di, 318
+	dec		bp
+	jnz		loc_9153					; for each track line
+	mov		cx, 9
+	rep stosw							; draw bottom line
+
+; draw completed track progress bar
+	mov		di, 336 * 52 + 317
+	mov		bx, arr_2400
+	mov		bp, [si]
+	cmp		bp, [bx]
+	jbe		loc_91D1
+	mov		ax, 0E5E5h					; redred
+
+loc_9185:
+	cmp		word [bx + 2], 0FFFFh
+	jz		loc_91D1
+	cmp		bp, [bx + 2]
+	jb		loc_91A7
+	mov		cx, 8						; full width (16 px)
+	rep stosw
+	add		di, 320
+	mov		cx, 8						; full width (16 px)
+	rep stosw
+	add		di, 336 * 1 + 320
+	add		bx, 2
+	jmp		loc_9185
+
+loc_91A7:
+	mov		cx, [bx + 2]
+	sub		cx, [bx]
+	mov		ax, bp
+	sub		ax, [bx]
+	shl		ax, 4
+	mov		dx, 0
+	jcxz	loc_91D1
+	div		cx
+	mov		dx, ax
+	cmp		dx, 16
+	jae		loc_91D1
+
+; draw current track progress bar
+	mov		al, 0E5h					; red
+	push	di
+	mov		cx, dx
+	rep stosb							; top px
+	pop		di
+	add		di, 336
+	mov		cx, dx
+	rep stosb							; bottom px
+
+loc_91D1:
+	cmp		word [num_of_players], 0
+	je		ret_9241
+
+; for 2PL mode draw status bar on who is ahead
+	mov		di, 336 * 17 + 286
+	call	sub_9242
+	mov		dx, [word_3FB6]
+	mov		ax, [word_4026]
+	cmp		si, word_4034
+	jz		loc_91F2
+	mov		dx, [word_40B0]
+	mov		ax, [word_4120]
+
+loc_91F2:
+	sub		dx, [si + 124]
+	sar		dx, 1
+	jns		loc_91FC
+	adc		dx, 0
+
+loc_91FC:
+	cmp		dx, -22
+	jg		loc_9204
+	mov		dx, -22
+
+loc_9204:
+	cmp		dx, 22
+	jl		loc_920C
+	mov		dx, 22
+
+loc_920C:
+	cmp		al, 3
+	jb		loc_9212
+	mov		al, 0
+
+loc_9212:
+	shl		al, 1
+	add		al, 5
+	add		al, [byte_2E81]
+	mov		ah, 0E0h
+	xchg	al, ah
+	add		di, 21
+	inc		dx
+	jg		loc_922A
+	dec		dx
+	add		di, dx
+	neg		dx
+	inc		dx
+
+loc_922A:
+	inc		dx
+	mov		bp, 12
+
+loc_922E:
+	push	di
+	stosb
+	mov		cx, dx
+	xchg	al, ah
+	rep stosb
+	xchg	al, ah
+	stosb
+	pop		di
+	add		di, 336
+	dec		bp
+	jnz		loc_922E
+
+ret_9241:
+	ret
+
+
+;
 ; Draws black frame for "ahead HUD" in 2PL mode.
 ;
 sub_9242:								; 9242

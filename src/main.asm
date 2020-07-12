@@ -8,9 +8,9 @@ segment main use16
 	rb 2000h
 
 include 'sound.inc'
-include 'intro.inc'
+include 'magazine.inc'
 include 'protection.inc'
-include 'intro2.inc'
+include 'intro.inc'
 include 'menu.inc'
 include 'config.inc'
 include 'vars.inc'
@@ -94,9 +94,8 @@ loc_5222:
 	call	sub_D915
 	jmp		old_logo
 
-
 include 'game.inc'
-include 'game2.inc'
+include 'hud.inc'
 include 'bitmap.inc'
 include 'crc.inc'
 include 'prepare.inc'
