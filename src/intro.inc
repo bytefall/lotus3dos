@@ -227,7 +227,7 @@ sub_32E2:
 ; Draws animation with a car that is approaching.
 ;
 ; input:
-; word_E38 - background image
+; credits_ptr - background image
 ; word_E3A - car images (from Q1B)
 draw_car_approaching:					; 3300
 	mov		word [word_3E18], 0
@@ -335,6 +335,19 @@ loc_33AB:
 
 
 ; when commented out - then text is fully transparent
+;
+;	for row in pal.chunks_exact_mut(12).take(11 * 3) {
+;		row[3] = 0x30;
+;		row[4] = 0x30;
+;		row[5] = 0x30;
+;		row[6] = 0x20;
+;		row[7] = 0x20;
+;		row[8] = 0x20;
+;		row[9] = 0;
+;		row[10] = 0;
+;		row[11] = 0;
+;	}
+;
 set_text_palette:						; 33C2
 	mov		si, palette
 	mov		cx, 32
@@ -350,8 +363,23 @@ loc_33C8:
 	ret
 
 
-;
 ; fade-in / fade-out font
+;
+;	for row in pal.chunks_exact_mut(12).take(11 * 3) {
+; 		let (r, g, b) = (row[0], row[1], row[2]);
+; 
+; 		row[3] = r;
+; 		row[4] = g;
+; 		row[5] = b;
+; 
+; 		row[6] = r;
+; 		row[7] = g;
+; 		row[8] = b;
+; 
+; 		row[9] = r;
+; 		row[10] = g;
+; 		row[11] = b;
+;	}
 ;
 sub_33E6:								; 33E6
 	mov		si, palette
@@ -361,7 +389,7 @@ loc_33EC:
 	mov		ax, [si]
 	mov		[si + 3], ax
 	mov		[si + 6], ax
-	mov		[si +9], ax
+	mov		[si + 9], ax
 	mov		al, [si + 2]
 	mov		[si + 5], al
 	mov		[si + 8], al

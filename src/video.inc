@@ -118,7 +118,7 @@ loc_D140:
 	mov		al, 0
 	cwd
 	idiv	bp
-	stosw
+	stosw							; es:di = ax
 	mov		al, 0
 	mov		ah, [bx]
 	inc		bx

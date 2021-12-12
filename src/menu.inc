@@ -484,6 +484,25 @@ loc_38BB:
 ; bx - row * 39 + 7
 ; cx - frame width (95 for standard frame)
 ; dx - frame height (30 for standard frame)
+;
+; __12FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFIJ__
+; 3456GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGKLMN
+; 789AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHOPQR
+; BCDE___________________________________STUV
+; *@~_____________________________________WXY
+; *@~_____________________________________WXY
+; *@~_____________________________________WXY
+; *@~_____________________________________WXY
+; *@~_____________________________________WXY
+; *@~_____________________________________WXY
+; *@~_____________________________________WXY
+; *@~_____________________________________WXY
+; *@~_____________________________________WXY
+; rstu___________________________________abcd
+; vwxyoooooooooooooooooooooooooooooooooooefgh
+; z#$%pppppppppppppppppppppppppppppppppppijkl
+; __^&qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqmn__
+;
 draw_menu_frame:						; 38BD
 	push	ds
 	add		cx, 4
@@ -505,73 +524,80 @@ draw_menu_frame:						; 38BD
 	add		ax, [word_63BC]
 	mov		[word_1092], ax
 	mov		ds, ax
-	; draw upper left corner:
-	or		word [di + 2], 6060h
-	or		word [di + 336], 6000h
-	or		word [di + 338], 2040h
-	or		word [di + 672], 4060h
-	or		word [di + 674], 4020h
-	or		word [di + 1008], 2060h
-	or		word [di + 1010], 6040h
+	; draw top left corner:
+	or		word [di + 2], 6060h				; 1 (60h - black), 2 (60h - black)
+	or		word [di + 336], 6000h				; 3 (00h - transparent), 4 (60h - black)
+	or		word [di + 336 + 2], 2040h			; 5 (40h - maroon), 6 (20h - red)
+	or		word [di + 336 * 2], 4060h			; 7 (60h - black), 8 (40h - maroon)
+	or		word [di + 336 * 2 + 2], 4020h		; 9 (20h - red), A (40h - maroon)
+	or		word [di + 336 * 3], 2060h			; B (60h - black), C (20h - red)
+	or		word [di + 336 * 3 + 2], 6040h		; D (40h - maroon), E (60h - black)
 	add		di, 4
 	pop		dx
 	pop		cx
 	push	cx
 	push	dx
 
-loc_3920:								; draw upper line
-	or		byte [di], 60h				; black
-	or		byte [di + 336], 20h		; red
-	or		byte [di + 672], 60h		; black
+	; draw top line:
+loc_3920:
+	or		byte [di], 60h						; F (60h - black)
+	or		byte [di + 336], 20h				; G (20h - red)
+	or		byte [di + 336 * 2], 60h			; H (60h - black)
 	inc		di
 	loop	loc_3920
-	or		word [di], 6060h
-	or		word [di + 150h], 4020h
-	or		word [di + 152h], 60h
-	or		word [di + 2A0h], 2040h
-	or		word [di + 2A2h], 6040h
-	or		word [di + 3F0h], 4060h
-	or		word [di + 3F2h], 6020h
-	add		di, 540h
+	; draw top right corner:
+	or		word [di], 6060h					; I (60h - black), J (60h - black)
+	or		word [di + 336], 4020h				; K (20h - red), L (40h - maroon)
+	or		word [di + 336 + 2], 0060h			; M (60h - black), N (00h - transparent)
+	or		word [di + 336 * 2], 2040h			; O (40h - maroon), P (20h - red)
+	or		word [di + 336 * 2 + 2], 6040h		; Q (40h - maroon), R (60h - black)
+	or		word [di + 336 * 3], 4060h			; S (60h - black), T (40h - maroon)
+	or		word [di + 336 * 3 + 2], 6020h		; U (20h - red), V (60h - black)
+	add		di, 336 * 4
 	pop		cx
 	push	cx
 
+	; draw right vertical line:
 loc_395D:
-	or		byte [di + 1], 60h
-	or		word [di + 2], 6020h
-	add		di, 150h
+	or		byte [di + 1], 60h					; W (60h - black)
+	or		word [di + 2], 6020h				; X (20h - red), Y (60h - black)
+	add		di, 336
 	loop	loc_395D
-	or		word [di], 4060h
-	or		word [di + 2], 6020h
-	or		word [di + 150h], 2040h
-	or		word [di + 152h], 6040h
-	or		word [di + 2A0h], 4020h
-	or		word [di + 2A2h], 60h
-	or		word [di + 3F0h], 6060h
+	; draw right bottom corner:
+	or		word [di], 4060h					; a (60h - black), b (40h - maroon)
+	or		word [di + 2], 6020h				; c (20h - red), d (60h - black)
+	or		word [di + 336], 2040h				; e (40h - maroon), f (20h - red)
+	or		word [di + 336 + 2], 6040h			; g (40h - maroon), h (60h - black)
+	or		word [di + 336 * 2], 4020h			; i (20h - red), j (40h - maroon)
+	or		word [di + 336 * 2 + 2], 0060h		; k (60h - black), l (00h - transparent)
+	or		word [di + 336 * 3], 6060h			; m (60h - black), n (60h - black)
 	pop		dx
 	pop		cx
 	push	dx
 
+	; draw bottom horizontal line:
 loc_3995:
 	dec		di
-	or		byte [di + 150h], 60h
-	or		byte [di + 2A0h], 20h
-	or		byte [di + 3F0h], 60h
+	or		byte [di + 336], 60h				; o (60h - black)
+	or		byte [di + 336 * 2], 20h			; p (20h - red)
+	or		byte [di + 336 * 3], 60h			; q (60h - black)
 	loop	loc_3995
+	; draw left bottom corner:
 	sub		di, 4
-	or		word [di], 2060h
-	or		word [di + 2], 6040h
-	or		word [di + 150h], 4060h
-	or		word [di + 152h], 4020h
-	or		word [di + 2A0h], 6000h
-	or		word [di + 2A2h], 2040h
-	or		word [di + 3F2h], 6060h
+	or		word [di], 2060h					; r (60h - black), s (20h - red)
+	or		word [di + 2], 6040h				; t (40h - maroon), u (60h - black)
+	or		word [di + 336], 4060h				; v (60h - black), w (40h - maroon)
+	or		word [di + 336 + 2], 4020h			; x (20h - red), y (40h - maroon)
+	or		word [di + 336 * 2], 6000h			; z (00h - transparent), # (60h - black)
+	or		word [di + 336 * 2 + 2], 2040h		; $ (40h - maroon), % (20h - red)
+	or		word [di + 336 * 3 + 2], 6060h		; ^ (60h - black), & (60h - black)
 	pop		cx
 
+	; draw left vertical line:
 loc_39D2:
 	sub		di, 336
-	or		word [di], 2060h
-	or		byte [di + 2], 60h
+	or		word [di], 2060h					; * (60h - black), @ (20h - red)
+	or		byte [di + 2], 60h					; ~ (60h - black)
 	loop	loc_39D2
 	pop		ds
 	ret
