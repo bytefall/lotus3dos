@@ -682,11 +682,11 @@ sub_929F:
 sub_92A4:
     mov     bx, [word_63BC]
     mov     es, bx
-    mov     di, 1360
+    mov     di, VGA_DBL_BUF_START
     mov     ax, 0
     mov     cx, 16800
     rep stosw
-    mov     di, 1360
+    mov     di, VGA_DBL_BUF_START
     add     bx, 2100
     mov     es, bx
     mov     cx, 16800
@@ -721,8 +721,8 @@ vga_draw:
     mov     ax, 0A000h
     mov     es, ax
     shr     dx, 1
-    mov     ds, [word_63BC]            ; video memory for A000
-    mov     si, 1360                   ; const x-offset = 1360
+    mov     ds, [word_63BC]
+    mov     si, VGA_DBL_BUF_START
     push    dx
     call    word [cs:off_92FD]
     pop     dx

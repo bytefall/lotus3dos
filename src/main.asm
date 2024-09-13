@@ -1,7 +1,9 @@
     format  MZ
     heap    0
-    stack   8000h
     entry   code_seg:start
+
+SCREEN_WIDTH = 336
+VGA_DBL_BUF_START = SCREEN_WIDTH * 4 + 16
 
 segment code_seg use16
 
@@ -17,16 +19,11 @@ include 'vars.inc'
 
 start:
     ; 5178:
-    mov     [cs:word_5164], ss
-    mov     sp, 1800h
-
-    ; mov      [cs:word_5160], ds
-    ; mov      ds, [cs:word_5162]
-
-    ; these lines are not in the original code:
     mov     [cs:word_5160], es
+    mov     [cs:word_5164], ss
     mov     ax, data_seg
     mov     ds, ax
+    times 3 nop
 
     ; 518A:
     call    set_video_mode_and_timer
@@ -106,3 +103,15 @@ include 'dos.inc'
 segment data_seg
 
 include 'data.inc'
+
+segment test_seg
+
+    rb 410000
+
+segment vga_dbl_buf_seg
+
+    rb 336 * 200 + VGA_DBL_BUF_START
+
+segment arc_header_seg
+
+    rb 4096

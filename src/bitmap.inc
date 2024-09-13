@@ -76,12 +76,12 @@ bmp_draw:
     pusha
     push    ds
     push    es
-    mov     di, 1360
+    mov     di, VGA_DBL_BUF_START
     add     di, ax
     mov     ax, 336
     mul     bx
     add     di, ax
-    mov     es, [word_63BC]            ; video memory for A000
+    mov     es, [word_63BC]
     mov     bl, ch
     mov     bh, 0
     shl     bx, 1

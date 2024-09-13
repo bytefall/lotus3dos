@@ -1,5 +1,3 @@
-screen_width = 336
-
 unkn_00:            rw 8                                    ; 00
 unkn_10:            rw 4                                    ; 10
 word_18:            dw arr6_80                              ; 18: for Sound Blaster
@@ -352,51 +350,51 @@ magn_fields_ptr:    rw 22                                   ; E06
 credits_ids:        db 19h, 1Bh, 1Ch, 1Dh, 1Eh, -1          ; E32
 credits_ptr:        rw 8                                    ; E38
 credits_txt:                                                ; E48
-                    dw 118 + 43 * screen_width
+                    dw 118 + 43 * SCREEN_WIDTH
                     db 'A GAME', 0
-                    dw 146 + 67 * screen_width
+                    dw 146 + 67 * SCREEN_WIDTH
                     db 'BY', 0
-                    dw 69 + 91 * screen_width
+                    dw 69 + 91 * SCREEN_WIDTH
                     db 'ANDREW MORRIS', 0
-                    dw 139 + 115 * screen_width
+                    dw 139 + 115 * SCREEN_WIDTH
                     db 'AND', 0
-                    dw 62 + 139 * screen_width
+                    dw 62 + 139 * SCREEN_WIDTH
                     db 'SHAUN SOUTHERN', 0
                     dw 0FBA0h
-                    dw 76 + 67 * screen_width
+                    dw 76 + 67 * SCREEN_WIDTH
                     db 'LEVEL DESIGN', 0
-                    dw 146 + 91 * screen_width
+                    dw 146 + 91 * SCREEN_WIDTH
                     db 'BY', 0
-                    dw 69 + 115 * screen_width
+                    dw 69 + 115 * SCREEN_WIDTH
                     db 'PETER LIGGETT', 0
                     dw 0FCB8h
-                    dw 125 + 67 * screen_width
+                    dw 125 + 67 * SCREEN_WIDTH
                     db 'MUSIC', 0
-                    dw 146 + 91 * screen_width
+                    dw 146 + 91 * SCREEN_WIDTH
                     db 'BY', 0
-                    dw 62 + 115 * screen_width
+                    dw 62 + 115 * SCREEN_WIDTH
                     db 'PATRICK PHELAN', 0
                     dw 0FCB8h
-                    dw 69 + 43 * screen_width
+                    dw 69 + 43 * SCREEN_WIDTH
                     db 'PC CONVERSION', 0
-                    dw 146 + 67 * screen_width
+                    dw 146 + 67 * SCREEN_WIDTH
                     db 'BY', 0
-                    dw 48 + 91 * screen_width
+                    dw 48 + 91 * SCREEN_WIDTH
                     db 'JON MEDHURST FOR', 0
-                    dw 55 + 115 * screen_width
+                    dw 55 + 115 * SCREEN_WIDTH
                     db 'CYGNUS SOFTWARE', 0
-                    dw 52 + 139 * screen_width
+                    dw 52 + 139 * SCREEN_WIDTH
                     db 'ENGINEERING LTD.', 0
                     dw 0FA88h
-                    dw 62 + 43 * screen_width
+                    dw 62 + 43 * SCREEN_WIDTH
                     db 'COPYRIGHT 1993', 0
-                    dw 55 + 67 * screen_width
+                    dw 55 + 67 * SCREEN_WIDTH
                     db 'MAGNETIC FIELDS', 0
-                    dw 10 + 91 * screen_width
+                    dw 10 + 91 * SCREEN_WIDTH
                     db '(SOFTWARE DESIGN) LTD.', 0
-                    dw 48 + 115 * screen_width
+                    dw 48 + 115 * SCREEN_WIDTH
                     db 'GREMLIN GRAPHICS', 0
-                    dw 73 + 139 * screen_width
+                    dw 73 + 139 * SCREEN_WIDTH
                     db 'SOFTWARE LTD.', 0
                     dw 0F858h
                     dw 0FFFFh
@@ -2742,9 +2740,9 @@ word_63B2:          dw ?                                    ; 63B2
 word_63B4:          dw ?                                    ; 63B4
 playing_demo:       dw ?                                    ; 63B6
 is_paused:          dw ?                                    ; 63B8
-word_63BA:          dw ?                                    ; 63BA, unpacked data
-word_63BC:          dw ?                                    ; 63BC
-word_63BE:          dw ?                                    ; 63BE
+word_63BA:          dw ?                                    ; 63BA
+word_63BC:          dw vga_dbl_buf_seg                      ; 63BC
+word_63BE:          dw arc_header_seg                       ; 63BE
 dat_file_handle:    dw ?                                    ; 63C0
 arr_63C2:           rw 512                                  ; 63C2
 arr_67C2:           rw 128                                  ; 67C2
@@ -2764,4 +2762,4 @@ arr_8358:           rb 1704                                 ; 8358
 arr_C156:           rb 1034                                 ; C156
 arr_C560:           rb 8                                    ; C560
 arr_C568:           rw 512                                  ; C568
-; TODO: C968
+                    rb 5104                                 ; C968

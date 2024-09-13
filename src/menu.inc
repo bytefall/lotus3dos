@@ -29,12 +29,7 @@ sub_352C:
 ;
 default_logo:
     call    fade_out
-if vanilla = 1
-    db 2Eh, 0A1h, 66h, 51h
-else
-    mov     ax, [word_5166]
-    nop
-end if
+    mov     ax, [cs:word_5166]
     mov     [word_63BA], ax
     mov     al, 18h
     mov     ah, 'Q'                    ; Q18 = Lotus logo
@@ -68,12 +63,7 @@ end if
 old_logo:
     call    sub_D915                   ; Fill stack with some data.
     call    fade_out
-if vanilla = 1
-    db 2Eh, 0A1h, 66h, 51h
-else
-    mov     ax, [word_5166]
-    nop
-end if
+    mov     ax, [cs:word_5166]
     mov     [word_63BA], ax
     mov     al, 3
     cmp     [song_num], al
@@ -319,7 +309,7 @@ sub_37CA:
     jnz     loc_37FE
     mov     ax, [word_3E30]
     shr     ax, 1
-    add     ax, 1360
+    add     ax, VGA_DBL_BUF_START
     mov     [dword_FDC], ax
     mov     ax, 21
     mul     word [word_3E32]
@@ -535,7 +525,7 @@ draw_menu_frame:
     mov     [word_1094], dx                      ; = frame_height + 4 + 8
     sub     ax, 6
     sub     bx, 6
-    mov     di, 1360                             ; = 1360 = 336 * 4
+    mov     di, VGA_DBL_BUF_START
     add     di, ax
     mov     ax, 336
     mul     bx
@@ -839,12 +829,7 @@ loc_3BCB:
 loc_3BDF:
     test    al, 30h
     jz      loc_3BE6
-if vanilla = 1
-    db 0E9h, 7Dh, 0
-else
-    jmp     loc_3C63
-    nop
-end if
+    jmp     near loc_3C63
 
 loc_3BE6:
     test    al, 1
@@ -1970,7 +1955,7 @@ loc_4465:
     mov     ax, 336
     mul     bx
     add     di, ax
-    add     di, 1360                   ; = 1360 = 336 * 4
+    add     di, VGA_DBL_BUF_START
     mov     es, [word_63BC]
     mov     bp, 25h
     cmp     cx, 13
@@ -2275,7 +2260,7 @@ loc_467E:
 ;
 pick_a_car:
     call    fade_out
-    mov     ax, [cs:word_5166]         ; ax = 1F45
+    mov     ax, [cs:word_5166]
     mov     [word_63BA], ax
     mov     si, car_sel_res_ids
     mov     di, car_sel_res_ptr
@@ -2451,7 +2436,7 @@ res_unpack_with_pal:
     call    res_unpack
 
     mov     ax, es
-    sub     ax, 48
+    sub     ax, 48                     ; -768
     mov     ds, ax
     mov     si, di
     mov     es, [cs:word_5162]
@@ -2688,12 +2673,8 @@ loc_4989:
     pop     di
     add     di, 8
     inc     si
-if vanilla = 1
-    db 81h, 0FEh, 8, 0
-else
     cmp     si, 8
     nop
-end if
     jb      for_each_col
     ret
 

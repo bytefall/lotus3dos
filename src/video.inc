@@ -271,30 +271,32 @@ set_video_mode_and_timer:
     ; BX = number of buttons
     mov     ax, 0
     int     33h
-
     mov     [byte_3E2C], al
-    mov     es, [cs:word_5160]         ; es = ds_from_packer = 0x0192
-    mov     ax, [es:2]                 ; es = 0x9FFF
-    sub     ax, 4371
-    mov     [word_63BC], ax            ; video memory for A000, = 0x8EEC
-    sub     ax, 256
-    mov     [word_63BE], ax            ; copy of unpacked data, = 0x8DEC
-    cli
+
+    ; mov     es, [cs:word_5160]
+    ; mov     ax, [es:2]
+    ; sub     ax, 4371
+    ; mov     [word_63BC], ax
+    ; sub     ax, 256
+    ; mov     [word_63BE], ax
+    times 21 nop
+
+    cli                                ; D230
 
     ; https://wiki.osdev.org/Interrupt_Vector_Table
     sub     ax, ax
     mov     es, ax
-    mov     ax, [es:24h]               ; = 0xE987
+    mov     ax, [es:24h]
     mov     [word_3D82], ax
-    mov     ax, [es:26h]               ; = 0xF000
+    mov     ax, [es:26h]
     mov     [word_3D84], ax
-    mov     ax, [es:20h]               ; = 0xFEA5
+    mov     ax, [es:20h]
     mov     [word_3E0A], ax
-    mov     ax, [es:22h]               ; = 0xF000
+    mov     ax, [es:22h]
     mov     [word_3E0C], ax
-    mov     ax, [es:90h]               ; = 0x0110
+    mov     ax, [es:90h]
     mov     [word_3D7E], ax
-    mov     ax, [es:92h]               ; = 0x0118
+    mov     ax, [es:92h]
     mov     [word_3D80], ax
     mov     al, 10110000b
     out     43h, al

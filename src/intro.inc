@@ -130,7 +130,8 @@ loc_31F0:
     pop     cx
     cmp     cx, 20
     jb      loc_31DC
-    mov     ax, [magn_fields_ptr + 21 * 2] ; last resource's (0x17) data
+
+    mov     ax, [magn_fields_ptr + 21 * 2] ; last resource's Q17 data
     call    res_unpack_simple
     mov     si, [word_63BA]
     mov     di, 0
@@ -292,7 +293,7 @@ draw_a_car:
     mul     dx
     sub     di, ax                     ; di = di - (eax * (336 * 32 + 170)) >> 16 * 336
     push    ds
-    add     di, 1360                   ; di += 336 * 4 + 16
+    add     di, VGA_DBL_BUF_START
     ;
     ; shift top left start pixel of a car
     mov     ax, di                     ; ax = di
@@ -411,7 +412,7 @@ loc_33EC:
 clear_text_texture:
     push    ds
     mov     ds, [word_63BC]
-    mov     di, 336 * 4 + 16
+    mov     di, VGA_DBL_BUF_START 
     mov     cx, 32768                  ; 320 x 200 + 255 * 3
 
 loc_3414:

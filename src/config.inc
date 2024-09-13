@@ -1,4 +1,4 @@
-cfg_size = 2087
+CFG_SIZE = 2087
 
 ;
 ; 503D: Opens an reads to cfg_data complete LOTUS.CFG
@@ -15,7 +15,7 @@ cfg_open_and_read:
     mov     bx, ax
     mov     ah, 3Fh
     mov     dx, tmp_file_buf
-    mov     cx, cfg_size
+    mov     cx, CFG_SIZE
     push    bx
     ; DOS - 2+ - READ FROM FILE WITH HANDLE
     ; BX = file handle, CX = number of bytes to read
@@ -35,7 +35,7 @@ cfg_open_and_read:
     pop     es
     mov     si, tmp_file_buf
     mov     di, cfg_data
-    mov     cx, cfg_size
+    mov     cx, CFG_SIZE
     rep movsb
 
 ret_5072:
@@ -46,7 +46,7 @@ ret_5072:
 ; 5073: Check config's CRC
 ;
 cfg_check_crc:
-    mov     cx, cfg_size - 1
+    mov     cx, CFG_SIZE - 1
     mov     al, 85
 
 loc_5078:

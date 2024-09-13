@@ -8,8 +8,8 @@
 ;
 draw_sprite:
     push    ds
-    mov     es, [word_63BC]            ; video memory for A000
-    add     di, 1360                   ; const x-offset = 1360
+    mov     es, [word_63BC]
+    add     di, VGA_DBL_BUF_START
     mov     ds, si
     mov     si, 0
     shr     ax, 1
@@ -44,8 +44,8 @@ loc_C067:
 ;
 draw_char:
     push    ds
-    mov     es, [word_63BC]            ; video memory for A000
-    add     di, 1360                   ; const x-offset = 1360 = 336 * 4 + 16
+    mov     es, [word_63BC]
+    add     di, VGA_DBL_BUF_START
     mov     ds, si
     mov     si, 0
     mov     bp, ax

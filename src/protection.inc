@@ -3,8 +3,8 @@
 ;
 protection_screen:
     call    fade_out
-    mov     ax, [cs:word_5166]         ; ax = 0x1D42 (old value 0x1C28)
-    mov     [word_63BA], ax            ; unpacked data
+    mov     ax, [cs:word_5166]
+    mov     [word_63BA], ax
 
     mov     si, prot_fonts
     mov     word [word_2E78], 0
@@ -179,12 +179,8 @@ loc_3041:
 ; 3095:
 ;
 unk_3095:
-if vanilla = 1
-    db 3Eh, 22h, 1Fh
-else
     and     bl, [bx]
     nop
-end if
     add     [si + 8], dh
     cmp     word [prot_d7e], 2020h
     je      ret_30C1

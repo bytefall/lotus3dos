@@ -37,37 +37,23 @@ sub_202F:
     mov     ax, bp
     mul     dl
     mov     al, ah
-if vanilla = 1
-    db 2, 87h, 0, 0
-else
     add     al, [bx]
     nop
     nop
-end if
     jae     loc_2042
     mov     al, 0FFh
 
 loc_2042:
-if vanilla = 1
-    db 88h, 87h, 0, 0
-    db 38h, 87h, 8, 0
-else
     mov     [bx], al
     nop
     nop
     cmp     [bx + 8], al
     nop
-end if
     jae     ret_202F
-if vanilla = 1
-    db 88h, 87h, 8, 0
-    db 0C6h, 87h, 10h, 0, 64h
-else
     mov     [bx + 8], al
     nop
     mov     byte [bx + 16], 100
     nop
-end if
 
 ret_202F:
     ret
@@ -111,12 +97,8 @@ sub_207C:
     mul     cl
     mov     bx, ax
     pop     ax
-if vanilla = 1
-    db 8Bh, 0BFh, 3Ah, 0
-else
     mov     di, [bx + arr_3A]
     nop
-end if
     jmp     word [word_36]             ; = 2557h
 
 
@@ -129,12 +111,8 @@ sub_208C:
     mul     cl
     mov     bx, ax
     pop     ax
-if vanilla = 1
-    db 8Bh, 0BFh, 3Ah, 0
-else
     mov     di, [bx + arr_3A]
     nop
-end if
     jmp     word [word_38]
 
 
@@ -153,12 +131,8 @@ sub_209C:
     shl     bx, 1
     ; arr6_80 - for Adlib and Sound Blaster
     ; arr6_2DE - for Roland
-if vanilla = 1
-    db 8Bh, 0B7h, 18h, 0
-else
     mov     si, [bx + word_18]
     nop
-end if
     mov     [word_20], si
     lodsw
     mov     cx, ds
@@ -387,12 +361,8 @@ sub_2207:
     mov     bl, [song_num]
     mov     bh, 0
     shl     bx, 1
-if vanilla = 1
-    db 8Bh, 97h, 6Ah, 0
-else
     mov     dx, [bx + tune_bpms]
     nop
-end if
     pop     bx
     mul     dx
     mov     [byte_24], ah
@@ -1005,11 +975,7 @@ loc_2660:
 sub_2661:
     cmp     byte [byte_3E1], 1
     je      loc_266B
-if vanilla = 1
-    db 0E9h, 7Fh, 0
-else
-    jmp     ret_26EA
-end if
+    jmp     near ret_26EA
 
 loc_266B:
     mov     bh, 0

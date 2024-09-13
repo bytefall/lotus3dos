@@ -1,5 +1,5 @@
-res_pair_size = 10                     ; each resource pair (key and offset) is 10 bytes long
-res_buff_size = 17408                  ; maximal size of packed resource
+RES_PAIR_SIZE = 10                     ; each resource pair (key and offset) is 10 bytes long
+RES_BUF_SIZE = 17408                   ; maximal size of packed resource
 
 
 ;
@@ -99,7 +99,7 @@ loc_C9D1:                              ; locate resource "X00" in the arc_header
     mov     cx, 4
     repe cmpsw
     je      loc_C9E7
-    add     bp, res_pair_size
+    add     bp, RES_PAIR_SIZE
     jmp     loc_C9D1
 
 loc_C9E7:
@@ -118,7 +118,7 @@ loc_C9E7:
     pop     di
     jb      err_CA0F
     mov     bx, [arc_file_handle]
-    mov     cx, [di + res_pair_size]   ; next resource's offset
+    mov     cx, [di + RES_PAIR_SIZE]   ; next resource's offset
     sub     cx, [di]
     shl     cx, 9                      ; get the difference and shl by 9 to get file offset
     ret
@@ -146,13 +146,13 @@ res_load:
     mov     [dat_file_handle], bx
     mov     ax, ds
     mov     dx, tmp_file_buf
-    mov     cx, res_buff_size
+    mov     cx, RES_BUF_SIZE
     call    file_read
 
     mov     es, [word_63BA]
     mov     di, 0
     mov     si, tmp_file_buf
-    mov     cx, res_buff_size
+    mov     cx, RES_BUF_SIZE
     call    res_unpack
     jae     loc_CA5A
 
@@ -162,12 +162,12 @@ loc_CA3C:
     mov     bx, [dat_file_handle]
     mov     ax, ds
     mov     dx, tmp_file_buf
-    mov     cx, res_buff_size
+    mov     cx, RES_BUF_SIZE
     call    file_read
     pop     es
     popa
     mov     si, tmp_file_buf
-    mov     cx, res_buff_size
+    mov     cx, RES_BUF_SIZE
     call    sub_CA75
     jb      loc_CA3C
 
