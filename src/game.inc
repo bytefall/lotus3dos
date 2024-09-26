@@ -6124,9 +6124,7 @@ loc_83A0:
     ret
 
 
-off_83A3:   dw sub_83A9
-off_83A5:   dw sub_83BF
-off_83A7:   dw sub_83D2
+off_83A3:   dw sub_83A9, sub_83BF, sub_83D2
 
 
 ;
@@ -6135,8 +6133,8 @@ off_83A7:   dw sub_83D2
 sub_83A9:
     push    bx
     mov     bx, [cs:word_D379]
-    mov     bx, [cs:bx - 7C5Bh]
-    mov     [cs:off_83A3], bx
+    mov     bx, [cs:bx - (0FFFFh - 1 - off_83A3)]
+    mov     [cs:off_83A3], bx          ; off_83A3 = off_83A3[bx]
     pop     bx
     jmp     word [cs:off_83A3]
 
@@ -6226,9 +6224,7 @@ loc_8458:
     ret
 
 
-off_845B:   dw sub_8461
-off_845D:   dw sub_8477
-off_845F:   dw sub_84B4
+off_845B:   dw sub_8461, sub_8477, sub_84B4
 
 
 ;
@@ -6237,8 +6233,8 @@ off_845F:   dw sub_84B4
 sub_8461:
     push    bx
     mov     bx, [cs:word_D379]
-    mov     bx, [cs:bx - 7BA3h]
-    mov     [cs:off_845B], bx
+    mov     bx, [cs:bx - (0FFFFh - 1 - off_845B)]
+    mov     [cs:off_845B], bx          ; off_845B = off_845B[bx]
     pop     bx
     jmp     word [cs:off_845B]
 

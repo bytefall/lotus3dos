@@ -746,8 +746,8 @@ off_92FD:   dw sub_9303, sub_9319, sub_9325
 sub_9303:
     push    bx
     mov     bx, [cs:word_D379]
-    mov     bx, [cs:bx - 6D01h]
-    mov     [cs:off_92FD], bx
+    mov     bx, [cs:bx - (0FFFFh - 1 - off_92FD)]
+    mov     [cs:off_92FD], bx          ; off_92FD = off_92FD[bx]
     pop     bx
     jmp     word [cs:off_92FD]
 
@@ -768,9 +768,9 @@ sub_9319:
 ; 9325:
 ;
 sub_9325:
-    mov     cx, 80
+    mov     cx, 80                     ; 320
     rep movsd
-    add     si, 16
+    add     si, 16                     ; 320 + 16 = 336
     dec     dx
     jnz     sub_9325
     ret
