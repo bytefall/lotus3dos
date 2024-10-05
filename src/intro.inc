@@ -412,7 +412,7 @@ loc_33EC:
 clear_text_texture:
     push    ds
     mov     ds, [word_63BC]
-    mov     di, VGA_DBL_BUF_START 
+    mov     di, VGA_DBL_BUF_START
     mov     cx, 32768                  ; 320 x 200 + 255 * 3
 
 loc_3414:

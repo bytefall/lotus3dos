@@ -124,7 +124,7 @@ loc_DB60:
     mov     al, 47h
     jcxz    loc_DB9D
     js      loc_DB9D
-    mov     ax, 0C783h
+    mov     ax, 0C783h                 ; 83 C7 XX - add di, XX
     stosw
     mov     al, 1
 
@@ -161,7 +161,7 @@ loc_DB9D:
     mov     cx, raw_DBC2 - raw_DBB4    ; = 14
     rep movs byte [es:di], [cs:si]     ; fill the rest of the code
     pop     di
-    add     di, 32                     ; every bitmap code snippet is 32 bytes long
+    add     di, 32                     ; each code snippet is 32 bytes long
     inc     dh
     jnz     loc_DB5A
     ret

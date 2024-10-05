@@ -213,7 +213,7 @@ draw_main_menu_items:
     mov     ax, [cfg_data + 10]
     mov     [p2_accel], ax
     mov     ax, [cfg_data + 2]
-    mov     [num_of_players], ax
+    mov     [is_2pl_mode], ax
     mov     ax, [cfg_data + 0]
     mov     [race_type], ax
 
@@ -280,7 +280,7 @@ draw_main_menu_items:
     mov     ax, 110
     mov     bx, 130
     mov     cx, 8
-    add     cx, [num_of_players]
+    add     cx, [is_2pl_mode]
     call    draw_menu_item
 
     call    sub_389E
@@ -2266,11 +2266,11 @@ pick_a_car:
     mov     di, car_sel_res_ptr
     mov     ah, 'I'
     call    load_resource_series
-    mov     word [word_3EDA], 0
+    mov     word [car_num], 0
 
 loc_469A:
     call    fade_out
-    mov     bx, [word_3EDA]
+    mov     bx, [car_num]
     shl     bx, 2
     mov     ax, [car_sel_res_ptr + bx + 2]       ; unpack background image
     call    res_unpack_with_pal
@@ -2279,7 +2279,7 @@ loc_469A:
     mov     ax, 320
     mov     bx, 200
     call    draw_sprite
-    mov     bx, [word_3EDA]
+    mov     bx, [car_num]
     shl     bx, 2
     mov     ax, [car_sel_res_ptr + bx]           ; unpack animated car
     call    res_unpack_simple
@@ -2322,7 +2322,7 @@ loc_471C:
 
 ; right button is pressed
 loc_4720:
-    mov     ax, [word_3EDA]
+    mov     ax, [car_num]
     inc     ax
     cmp     ax, 2
     jbe     loc_4748
@@ -2335,7 +2335,7 @@ loc_472E:
 
 ; left button is pressed
 loc_4732:
-    mov     ax, [word_3EDA]
+    mov     ax, [car_num]
     dec     ax
     jge     loc_4748
     mov     ax, 2                      ; goto last car - M200
@@ -2354,7 +2354,7 @@ loc_4748:
     push    ax
     call    fade_out2
     call    sub_4756
-    pop     word [word_3EDA]
+    pop     word [car_num]
     jmp     loc_469A
 
 
@@ -2875,7 +2875,7 @@ sub_4B08:
     call    update_screen
     call    fade_in
     mov     word [word_3E18], 0
-    mov     ax, 0AF0h
+    mov     ax, 2800
     call    sub_C002
     cmp     word [word_3EE4], 0
     jz      ret_4B47
@@ -2922,7 +2922,7 @@ loc_4B77:
     add     bx, 3
     mov     bp, [word_401C]
     mov     di, 0
-    cmp     word [num_of_players], 0
+    cmp     word [is_2pl_mode], 0
     jz      loc_4B98
     mov     di, [word_4116]
 
@@ -3058,7 +3058,7 @@ sub_4C52:
     mov     cx, [word_3F6A]
     mov     dx, [word_3F68]
     call    sub_4F81
-    cmp     word [num_of_players], 0
+    cmp     word [is_2pl_mode], 0
     jz      ret_4C99
     mov     ax, 90
     add     bx, 12
@@ -3095,7 +3095,7 @@ sub_4C9A:
     mov     word [word_401C], 20
 
 loc_4CC7:
-    cmp     word [num_of_players], 0
+    cmp     word [is_2pl_mode], 0
     jz      loc_4CF2
     mov     ax, [word_4112]
     or      ax, [word_4114]
@@ -3112,7 +3112,7 @@ loc_4CF2:
     mov     dx, 99
     mov     cx, [word_401C]
     dec     cx
-    cmp     word [num_of_players], 0
+    cmp     word [is_2pl_mode], 0
     jz      loc_4D06
     mov     dx, [word_4116]
     dec     dx
@@ -3246,7 +3246,7 @@ sub_4DE9:
     call    update_screen
     call    fade_in
     mov     word [word_3E18], 0
-    mov     ax, 15E0h
+    mov     ax, 5600
     call    sub_C002
     ret
 
@@ -3279,7 +3279,7 @@ loc_4E42:
     mov     si, bp
     cmp     byte [si + arr_15A6], 13h
     jz      loc_4E59
-    cmp     word [num_of_players], 0
+    cmp     word [is_2pl_mode], 0
     jz      loc_4E5F
     cmp     byte [si + arr_15A6], 12h
     jnz     loc_4E5F
@@ -3348,7 +3348,7 @@ sub_4EAD:
     call    update_screen
     call    fade_in
     mov     word [word_3E18], 0
-    mov     ax, 0AF0h
+    mov     ax, 2800
     call    sub_C002
     ret
 
@@ -3504,7 +3504,7 @@ sub_4FCD:
     push    di
     call    sub_4FEF
     pop     di
-    cmp     word [num_of_players], 0
+    cmp     word [is_2pl_mode], 0
     jz      ret_500E
     mov     bp, p2_name
     mov     bx, 4062h
@@ -3548,7 +3548,7 @@ loc_5025:
     rep movsb
     mov     ax, [bx + 2]
     stosw
-    mov     ax, [word_3EDA]
+    mov     ax, [car_num]
     shl     ax, 14
     add     ax, [bx]
     stosw

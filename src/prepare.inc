@@ -1743,7 +1743,7 @@ sub_B9F8:
     push    di
     mov     bx, [track_num]
     shl     bx, 1
-    mov     bx, [bx + arr_2944]
+    mov     bx, [bx + arr13_2944]
     mov     ax, [word_2AB6]
     add     ax, 2
     shr     ax, 2
@@ -1799,29 +1799,29 @@ ret_BA66:
 ; BA67:
 ;
 sub_BA67:
-    mov     ax, 1Ah
-    mul     word [word_3EDA]
+    mov     ax, 26
+    mul     word [car_num]
     add     ax, [track_num]
     shl     ax, 1
-    mov     bx, 295Eh
+    mov     bx, arr_295E
     add     bx, ax
-    mov     cx, [bx + 1Ah]
-    mov     bx, [bx]
+    mov     cx, [bx + 26]              ; arr_295E[car_num * 26 + track_num + 13]
+    mov     bx, [bx]                   ; arr_295E[car_num * 26 + track_num]
     sub     cx, bx
     mov     ax, cx
     mul     word [word_244C]
-    mov     bp, 63h
+    mov     bp, 99
     div     bp
     add     bx, ax
     push    bx
-    mov     ax, 13E3h
+    mov     ax, 5091
     mul     bx
-    mov     bp, 0C0h
+    mov     bp, 192
     div     bp
     mov     bx, ax
     mov     cx, [word_23F2]
     mov     dx, cx
-    add     dx, 80h
+    add     dx, 128
     cmp     word [is_circular_track], 0
     je      loc_BAB8
     mov     ax, [num_of_tracks]
@@ -1838,9 +1838,9 @@ loc_BAB8:
     mov     [word_23F8], ax
     mov     [word_23FA], ax
     pop     ax
-    mov     bp, 3E8h
+    mov     bp, 1000
     mul     bp
-    mov     bp, 0E10h
+    mov     bp, 3600
     div     bp
     mov     bx, ax
     ret
@@ -2234,7 +2234,7 @@ loc_BDAF:
 ; BDBC:
 ;
 sub_BDBC:
-    cmp     word [num_of_players], 0
+    cmp     word [is_2pl_mode], 0
     jne     loc_BDC4
     ret
 
@@ -2327,8 +2327,8 @@ sub_BE52:
     mov     [word_63BA], ax
     push    ds
     pop     es
-    mov     di, 6392h
-    mov     cx, 63B6h
+    mov     di, word_6392
+    mov     cx, playing_demo
     sub     cx, di
 
 loc_BE63:
@@ -2336,8 +2336,8 @@ loc_BE63:
     rep stosb
     mov     bx, [track_num]
     shl     bx, 1
-    mov     word [bx + 639Ch], 1       ; arr_6392[5 + track_num] = 1;
-    mov     si, [bx + arr_29FA]        ; si = &arr_29FA[track_num];
+    mov     word [bx + word_639C], 1
+    mov     si, [bx + arr_29FA]
 
 loc_BE77:
     lodsw
@@ -2350,7 +2350,7 @@ loc_BE77:
 loc_BE84:
     mov     si, arr_2A4C
     mov     ax, 6
-    mul     word [word_3EDA]
+    mul     word [car_num]
     add     si, ax
     lodsw
     mov     [word_2A5E], ax
@@ -2363,9 +2363,9 @@ loc_BE84:
     mov     word [word_634C], 3
     mov     bx, [track_num]
     shl     bx, 1
-    mov     ax, [bx + arr_2A64]
+    mov     ax, [bx + arr13_2A64]
     mov     [word_2AB2], ax
-    mov     ax, [bx + 4A46h]
+    mov     ax, [bx + arr13_4A46]
 
 loc_BEBF:
     mov     [word_2AB6], ax
@@ -2452,7 +2452,7 @@ loc_BF71:
     call    sub_C95F
     cmp     word [playing_demo], 0
     jnz     ret_BFB4
-    mov     ax, 578h
+    mov     ax, 1400
     call    sub_C002
     call    fade_out
 

@@ -600,7 +600,7 @@ word_16FA:          dw ?                                    ; 16FA
 word_16FC:          dw ?                                    ; 16FC
 byte_16FE:          db ?                                    ; 16FE
 word_16FF:          dw ?                                    ; 16FF
-arr_1701:           db 'KMHP', 1Ch, 'R'                     ; 1701
+arr_1701:           db 'KMHP', 1Ch, 'R'                     ; 1701: KMQOHL
 byte_1707:          db 0                                    ; 1707
 byte_1708:          db ?                                    ; 1708
 word_1709:          dw ?                                    ; 1709
@@ -891,8 +891,8 @@ show_lotus_again:   db ?                                    ; 1F23
 demo_counter:       dw ?                                    ; 1F24
 word_1F26:          dw loc_DC70                             ; 1F26
 word_1F28:          dw ?                                    ; 1F28
-arr_1F2A:           dw 7, 0Ah, 0Fh, 1, 9, 700h, 4A11h, 2040h, 3127h, 404Ah ; 1F2A
-
+arr_1F2A:           dw 7, 10, 15, 1, 9                      ; 1F2A
+arr_1F34:           db 0, 7, 17, 74, 64, 32, 39, 49, 74, 64 ; 1F34
 arr_1F3E:           dw ?                                    ; 1F3E
 arr_1F40:           rw 8                                    ; 1F40
 word_1F50:          dw ?                                    ; 1F50
@@ -1350,174 +1350,68 @@ arr_2874:           db 0F0h, 94h, 0, 0
                     db 0, 0, 0, 0
                     db 0, 0, 0, 0 
 
-arr_2944:           db 0, 90h
-                    db 0, 92h
-                    db 0, 91h
-                    db 0, 90h
-                    db 0, 90h
-                    db 0, 90h
-                    db 0, 90h
-                    db 0, 90h
-                    db 0, 90h
-                    db 0, 90h
-                    db 0, 90h
-                    db 0, 90h
-                    db 0, 90h
-                    db 0AAh, 0
-                    db 0B4h, 0
-                    db 0AAh, 0
-                    db 0A0h, 0
-                    db 082h, 0
-                    db 0AAh, 0
-                    db 08Ch, 0
-                    db 0B4h, 0
-                    db 0AAh, 0
-                    db 082h, 0
-                    db 0AAh, 0
-                    db 0BEh, 0
-                    db 0AAh, 0
-                    db 0Eh, 1
-                    db 18h, 1
-                    db 0Eh, 1
-                    db 4, 1
-                    db 0E6h, 0
-                    db 0Eh, 1
-                    db 0F0h, 0
-                    db 18h, 1
-                    db 0Eh, 1
-                    db 0E6h, 0
-                    db 0Eh, 1
-                    db 22h, 1
-                    db 0Eh, 1
-                    db 82h, 0
-                    db 8Ch, 0
-                    db 82h, 0
-                    db 78h, 0
-                    db 5Ah, 0
-                    db 82h, 0
-                    db 64h, 0
-                    db 8Ch, 0
-                    db 82h, 0
-                    db 5Ah, 0
-                    db 82h, 0
-                    db 96h, 0
-                    db 82h, 0
-                    db 0E6h, 0
-                    db 0F0h, 0
-                    db 0E6h, 0
-                    db 0DCh, 0
-                    db 0BEh, 0
-                    db 0E6h, 0
-                    db 0C8h, 0
-                    db 0F0h, 0
-                    db 0E6h, 0
-                    db 0BEh, 0
-                    db 0E6h, 0
-                    db 0FAh, 0
-                    db 0E6h, 0
-                    db 96h, 0
-                    db 0A0h, 0
-                    db 96h, 0
-                    db 8Ch, 0
-                    db 6Eh, 0
-                    db 96h, 0
-                    db 78h, 0
-                    db 0A0h, 0
-                    db 96h, 0
-                    db 6Eh, 0
-                    db 96h, 0
-                    db 0AAh, 0
-                    db 096h, 0
-                    db 0FAh, 0
-                    db 4, 1
-                    db 0FAh, 0
-                    db 0F0h, 0
-                    db 0D2h, 0
-                    db 0FAh, 0
-                    db 0DCh, 0
-                    db 4, 1
-                    db 0FAh, 0
-                    db 0D2h, 0
-                    db 0FAh, 0
-                    db 14, 1
-                    db 0FAh, 0
+arr13_2944:         db 0, 90h                               ; Forest
+                    db 0, 92h                               ; Night
+                    db 0, 91h                               ; Fog
+                    db 0, 90h                               ; Snow
+                    db 0, 90h                               ; Desert
+                    db 0, 90h                               ; MotorWay
+                    db 0, 90h                               ; Marsh
+                    db 0, 90h                               ; Storm
+                    db 0, 90h                               ; Roadworks
+                    db 0, 90h                               ; Rally
+                    db 0, 90h                               ; Wind
+                    db 0, 90h                               ; Futuristic
+                    db 0, 90h                               ; Mountains
 
-arr_29FA:           db 14h, 2Ah
-                    db 18h, 2Ah
-                    db 1Eh, 2Ah
-                    db 22h, 2Ah
-                    db 26h, 2Ah
-                    db 2Ah, 2Ah
-                    db 2Eh, 2Ah
-                    db 32h, 2Ah
-                    db 3Ch, 2Ah
-                    db 3Eh, 2Ah
-                    db 44h, 2Ah
-                    db 46h, 2Ah
-                    db 4Ah, 2Ah
-                    db 92h, 63h
-                    db 0, 0
-                    db 96h, 63h
-                    db 98h, 63h
-                    db 0, 0
-                    db 98h, 63h
-                    db 0, 0
-                    db 9Ah, 63h
-                    db 0, 0
-                    db 94h, 63h
-                    db 0, 0
-                    db 96h, 63h
-                    db 0, 0
-                    db 92h, 63h
-                    db 0, 0
-                    db 98h, 63h
-                    db 9Ah, 63h
-                    db 94h, 63h
-                    db 92h, 63h
-                    db 0, 0
-                    db 0, 0
-                    db 92h, 63h
-                    db 94h, 63h
-                    db 0, 0
-                    db 0, 0
-                    db 96h, 63h
-                    db 0, 0
-                    db 0, 0
+arr_295E:           ; 295E: Esprit S4
+                    dw 170, 180, 170, 160, 130, 170, 140, 180, 170, 130, 170, 190, 170
+                    dw 270, 280, 270, 260, 230, 270, 240, 280, 270, 230, 270, 290, 270
+                    ; 2992: Elan SE
+                    dw 130, 140, 130, 120, 90, 130, 100, 140, 130, 90, 130, 150, 130
+                    dw 230, 240, 230, 220, 190, 230, 200, 240, 230, 190, 230, 250, 230
+                    ; 29C6: M200
+                    dw 150, 160, 150, 140, 110, 150, 120, 160, 150, 110, 150, 170, 150
+                    dw 250, 260, 250, 240, 210, 250, 220, 260, 250, 210, 250, 270, 250
 
-arr_2A4C:           dw 5082h, 511Ah, 51B2h
-                    dw 51BCh, 5254h, 52ECh
-                    dw 52F6h, 5394h, 542Ch
+arr_29FA:           dw word_2A14
+                    dw word_2A18
+                    dw word_2A1E
+                    dw word_2A22
+                    dw word_2A26
+                    dw word_2A2A
+                    dw word_2A2E
+                    dw word_2A32
+                    dw word_2A3C
+                    dw word_2A3E
+                    dw word_2A44
+                    dw word_2A46
+                    dw word_2A4A
+
+word_2A14:          dw word_6392, 0                         ; 2A14: Forest
+word_2A18:          dw word_6396, word_6398, 0              ; 2A18: Night
+word_2A1E:          dw word_6398, 0                         ; 2A1E: Fog
+word_2A22:          dw word_639A, 0                         ; 2A22: Snow
+word_2A26:          dw word_6394, 0                         ; 2A26: Desert
+word_2A2A:          dw word_6396, 0                         ; 2A2A: MotorWay
+word_2A2E:          dw word_6392, 0                         ; 2A2E: Marsh
+word_2A32:          dw word_6398, word_639A, word_6394, word_6392, 0 ; 2A32: Storm
+word_2A3C:          dw 0                                    ; 2A3C: Roadworks
+word_2A3E:          dw word_6392, word_6394, 0              ; 2A3E: Rally
+word_2A44:          dw 0                                    ; 2A44: Wind
+word_2A46:          dw word_6396, 0                         ; 2A46: Futuristic
+word_2A4A:          dw 0                                    ; 2A4A: Mountains
+
+arr_2A4C:           dw arr_5082, arr_511A, arr_51B2         ; Esprit S4
+                    dw arr_51BC, arr_5254, arr_52EC         ; Elan SE
+                    dw arr_52F6, arr_5394, arr_542C         ; M200
 
 word_2A5E:          dw ?                                    ; 2A5E
 word_2A60:          dw ?                                    ; 2A60
 word_2A62:          dw ?                                    ; 2A62
 
-arr_2A64:           db 64h, 0
-                    db 0E4h, 0
-                    db 4, 0
-                    db 4, 0
-                    db 0A4h, 0
-                    db 0E4h, 0
-                    db 0A4h, 0
-                    db 0A4h, 0
-                    db 0E4h, 0
-                    db 0A4h, 0
-                    db 0E4h, 0
-                    db 64h, 0
-                    db 0E4h, 0
-                    db 64h, 0
-                    db 78h, 0
-                    db 64h, 0
-                    db 78h, 0
-                    db 64h, 0
-                    db 78h, 0
-                    db 64h, 0
-                    db 78h, 0
-                    db 64h, 0
-                    db 64h, 0
-                    db 64h, 0
-                    db 64h, 0
-                    db 64h, 0
+arr13_2A64:         dw 100, 228, 4, 4, 164, 228, 164, 164, 228, 164, 228, 100, 228
+                    dw 100, 120, 100, 120, 100, 120, 100, 120, 100, 100, 100, 100, 100 ; 2A7E
 
 arr_2A98:           db 0, 0, 0, 0, 0, 0, 16, 0, 16, 0, 0, 0, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 
@@ -1838,9 +1732,10 @@ memory_error:       db 'HELP! Memory full.', 0              ; 3EA6
 word_3EB9:          dw 3EBCh                                ; 3EB9
 byte_3EBB:          db 0                                    ; 3EBB
 version_str:        db 'LOTUS III  Version 14/07/93', 0     ; 3EBC
+
 word_3ED8:          dw ?                                    ; 3ED8
-word_3EDA:          dw ?                                    ; 3EDA: -------------------------------
-num_of_players:     dw ?                                    ; 3EDC: P1 or P1 + P2
+car_num:            dw ?                                    ; 3EDA: 0 - Esprit S4, 1 - Elan SE, 2 - M200
+is_2pl_mode:        dw ?                                    ; 3EDC
 race_type:          dw ?                                    ; 3EDE: TimeLimit, Competition
 word_3EE0:          dw ?                                    ; 3EE0
 word_3EE2:          dw ?                                    ; 3EE2
@@ -1852,8 +1747,8 @@ word_3EEC:          dw ?                                    ; 3EEC
 rnd_3EEE:           rw 8                                    ; 3EEE
 rnd_3EFE:           rw 8                                    ; 3EFE
 arr_3F0E:           rw 16                                   ; 3F0E
-arr_3F2E:           rb 12                                   ; 3F2E
-word_3F3A:          dw ?                                    ; 3F3A, is a struct
+race_code:          rb 12                                   ; 3F2E
+word_3F3A:          dw ?                                    ; 3F3A, is a struct (gameplay data)
 word_3F3C:          dw ?                                    ; 3F3C
 word_3F3E:          dw ?                                    ; 3F3E
                     dw ?                                    ; 3F40
@@ -1861,7 +1756,7 @@ word_3F42:          dw ?                                    ; 3F42
 word_3F44:          dw ?                                    ; 3F44
 word_3F46:          db ?                                    ; 3F46
                     db ?                                    ; 3F47
-word_3F48:          dw ?                                    ; 3F48
+word_3F48:          dw ?                                    ; 3F48: p1_speed
                     dw ?                                    ; 3F4A
                     rb 8                                    ; 3F4C
 word_3F54:          dw ?                                    ; 3F54
@@ -1944,8 +1839,7 @@ p2_accel:           dw ?                                    ; 406C: P2 accelerat
 p2_gears:           dw ?                                    ; 406E: P2 gears
                     rb 10                                   ; 4070
 word_407A:          dw ?                                    ; 407A
-word_407C:          dw ?                                    ; 407C
-                    rb 48                                   ; 407E
+word_407C:          rw 25                                   ; 407C
 word_40AE:          dw ?                                    ; 40AE
 word_40B0:          dw ?                                    ; 40B0
 word_40B2:          dw ?                                    ; 40B2
@@ -1983,6 +1877,7 @@ arr_417E:           rb 96                                   ; 417E
 word_41DE:          dw ?                                    ; 41DE
 word_41E0:          dw ?                                    ; 41E0
                     rb 140                                  ; 41E2
+
 arr_426E:           rb 4                                    ; 426E
 arr_4272:           rb 4                                    ; 4272
 arr_4276:           rb 4                                    ; 4276
@@ -2252,151 +2147,131 @@ arr40_4E7A:         ; 4E7A: Forest
                     db 50h, 0FFh, 0C0h, 0FFh, 40h, 0, 0B0h, 0
                     db 50h, 0FFh, 0C0h, 0FFh, 40h, 0, 0B0h, 0
 
-arr_5082:           dw 19h, 19h, 1Eh, 1Eh, 23h, 23h, 28h, 28h, 2Ch, 30h, 34h, 38h, 3Ch, 40h, 44h, 48h, 4Bh, 4Eh, 51h, 54h, 56h, 58h, 5Ah, 5Ch, 5Eh, 5Fh, 60h, 60h, 60h, 60h, 5Fh, 5Eh, 5Ch, 5Ah, 58h, 56h, 54h, 51h, 4Eh, 4Bh, 48h, 44h, 40h, 3Ch, 38h, 34h, 30h, 2Ch, 28h, 24h, 20h, 1Ch, 18h, 14h, 10h, 0Ch, 8, 4, 0
+; 76 words
+arr_5082:           dw 25, 25, 30, 30, 35, 35, 40, 40, 44, 48
+                    dw 52, 56, 60, 64, 68, 72, 75, 78, 81, 84
+                    dw 86, 88, 90, 92, 94, 95, 96, 96, 96, 96
+                    dw 95, 94, 92, 90, 88, 86, 84, 81, 78, 75
+                    dw 72, 68, 64, 60, 56, 52, 48, 44, 40, 36
+                    dw 32, 28, 24, 20, 16, 12, 8, 4, 0
                     ; 50F8
-                    db 0FBh, 0FFh, 0F6h, 0FFh, 0F1h, 0FFh, 0ECh, 0FFh, 0E7h, 0FFh, 0E2h, 0FFh, 0D8h, 0FFh, 0C4h, 0FFh, 0B0h, 0FFh, 09Ch, 0FFh, 06Ah, 0FFh, 038h, 0FFh, 006h, 0FFh, 0D4h, 0FEh, 070h, 0FEh, 00Ch, 0FEh, 0A8h, 0FDh
+                    dw -5, -10, -15, -20, -25
+                    dw -30, -40, -60, -80, -100
+                    dw -150, -200, -250, -300, -400
+                    dw -500, -600
 
-; 152 bytes
-arr_511A:           db 0FBh, 0FFh, 0FBh, 0FFh, 0FBh, 0FFh, 0FBh, 0FFh
-                    db 0FBh, 0FFh, 0FBh, 0FFh, 0FBh, 0FFh, 0FBh, 0FFh
-                    db 0F6h, 0FFh, 0F6h, 0FFh, 0F6h, 0FFh, 0F6h, 0FFh
-                    db 0F6h, 0FFh, 0F6h, 0FFh, 0F6h, 0FFh, 0F6h, 0FFh
-                    db 0F1h, 0FFh, 0F1h, 0FFh, 0F1h, 0FFh, 0F1h, 0FFh
-                    db 0F1h, 0FFh, 0F1h, 0FFh, 0F1h, 0FFh, 0F1h, 0FFh
-                    db 0ECh, 0FFh, 0ECh, 0FFh, 0ECh, 0FFh, 0ECh, 0FFh
-                    db 0ECh, 0FFh, 0ECh, 0FFh, 0ECh, 0FFh, 0ECh, 0FFh
-                    db 0E7h, 0FFh, 0E7h, 0FFh, 0E7h, 0FFh, 0E7h, 0FFh
-                    db 0E2h, 0FFh, 0E2h, 0FFh, 0E2h, 0FFh, 0E2h, 0FFh
-                    db 0D8h, 0FFh, 0D8h, 0FFh, 0D8h, 0FFh, 0D8h, 0FFh
-                    db 0D3h, 0FFh, 0D3h, 0FFh, 0D3h, 0FFh, 0D3h, 0FFh
-                    db 0CEh, 0FFh, 0CEh, 0FFh, 0C9h, 0FFh, 0C9h, 0FFh
-                    db 0C4h, 0FFh, 0C4h, 0FFh, 0BFh, 0FFh, 0BFh, 0FFh
-                    db 0BAh, 0FFh, 0B5h, 0FFh, 0B0h, 0FFh, 0ABh, 0FFh
-                    db 0A6h, 0FFh, 0A1h, 0FFh, 09Ch, 0FFh, 097h, 0FFh
-                    db 092h, 0FFh, 088h, 0FFh, 074h, 0FFh, 060h, 0FFh
-                    db 04Ch, 0FFh, 038h, 0FFh, 006h, 0FFh, 0D4h, 0FEh
-                    db 070h, 0FEh, 00Ch, 0FEh, 0A8h, 0FDh, 044h, 0FDh
+; 76 words
+arr_511A:           times 8 dw -5
+                    times 8 dw -10
+                    times 8 dw -15
+                    times 8 dw -20
+                    times 4 dw -25
+                    times 4 dw -30
+                    times 4 dw -40
+                    times 4 dw -45
+                    times 2 dw -50
+                    times 2 dw -55
+                    times 2 dw -60
+                    times 2 dw -65
+                    dw -70, -75, -80, -85
+                    dw -90, -95, -100, -105
+                    dw -110, -120, -140, -160
+                    dw -180, -200, -250, -300
+                    dw -400, -500, -600, -700
 
-; 10 bytes
-arr_51B2:           db 55h, 3Dh, 55h, 64h, 80h, 96h, 0, 0C8h, 0, 0F8h
+; 5 words
+arr_51B2:           dw 3D55h, 6455h, 9680h, 0C800h, 0F800h
 
-; 152 bytes
-arr_51BC:           dw 19h, 19h, 1Eh, 1Eh
-                    dw 23h, 23h, 28h, 28h
-                    dw 2Ch, 30h, 34h, 38h
-                    dw 3Ch, 40h, 44h, 48h
-                    dw 4Bh, 4Eh, 51h, 54h
-                    dw 56h, 58h, 5Ah, 5Ch
-                    dw 5Eh, 5Fh, 60h, 60h
-                    dw 60h, 60h, 5Eh, 5Ch
-                    dw 5Ah, 56h, 52h, 4Eh
-                    dw 4Ah, 46h, 41h, 3Ch
-                    dw 37h, 32h, 2Dh, 28h
-                    dw 23h, 1Eh, 19h, 14h
-                    dw 0Fh, 0Ah, 05h, 00h
-                    dw 0FFFAh, 0FFF4h, 0FFEEh, 0FFE8h 
-                    dw 0FFE2h, 0FFD8h, 0FFCEh, 0FFC4h 
-                    dw 0FFBAh, 0FFB0h, 0FFA6h, 0FF9Ch 
-                    dw 0FF6Ah, 0FF38h, 0FED4h, 0FE70h 
-                    dw 0FDA8h, 0FDA8h, 0FDA8h, 0FDA8h 
-                    dw 0FDA8h, 0FDA8h, 0FDA8h, 0FDA8h 
+; 76 words
+arr_51BC:           dw 25, 25, 30, 30, 35, 35, 40, 40, 44, 48
+                    dw 52, 56, 60, 64, 68, 72, 75, 78, 81, 84
+                    dw 86, 88, 90, 92, 94, 95, 96, 96, 96, 96
+                    dw 94, 92, 90, 86, 82, 78, 74, 70, 65, 60
+                    dw 55, 50, 45, 40, 35, 30, 25, 20, 15, 10
+                    dw 5, 0
+                    dw -6, -12, -18, -24
+                    dw -30, -40, -50, -60
+                    dw -70, -80, -90, -100
+                    dw -150, -200, -300, -400
+                    dw -600, -600, -600, -600
+                    dw -600, -600, -600, -600
 
-; 152 bytes
-arr_5254:           dw 0FFFBh, 0FFFBh, 0FFFBh, 0FFFBh 
-                    dw 0FFFBh, 0FFFBh, 0FFFBh, 0FFFBh 
-                    dw 0FFF6h, 0FFF6h, 0FFF6h, 0FFF6h 
-                    dw 0FFF6h, 0FFF6h, 0FFF6h, 0FFF6h 
-                    dw 0FFF1h, 0FFF1h, 0FFF1h, 0FFF1h 
-                    dw 0FFF1h, 0FFF1h, 0FFF1h, 0FFF1h 
-                    dw 0FFECh, 0FFECh, 0FFECh, 0FFECh 
-                    dw 0FFECh, 0FFECh, 0FFECh, 0FFECh 
-                    dw 0FFE7h, 0FFE7h, 0FFE7h, 0FFE7h 
-                    dw 0FFE2h, 0FFE2h, 0FFE2h, 0FFE2h 
-                    dw 0FFD8h, 0FFD8h, 0FFD8h, 0FFD8h 
-                    dw 0FFCEh, 0FFCEh, 0FFCEh, 0FFCEh 
-                    dw 0FFC4h, 0FFC4h, 0FFBAh, 0FFBAh 
-                    dw 0FFB0h, 0FFB0h, 0FFA6h, 0FFA6h 
-                    dw 0FF9Ch, 0FF88h, 0FF6Ah, 0FF38h 
-                    dw 0FED4h, 0FE70h, 0FE0Ch, 0FDA8h 
-                    dw 0FD44h, 0FD44h, 0FCE0h, 0FCE0h 
-                    dw 0FC18h, 0FC18h, 0FC18h, 0FC18h 
-                    dw 0FC18h, 0FC18h, 0FC18h, 0FC18h 
+; 76 words
+arr_5254:           times 8 dw -5
+                    times 8 dw -10
+                    times 8 dw -15
+                    times 8 dw -20
+                    times 4 dw -25
+                    times 4 dw -30
+                    times 4 dw -40
+                    times 4 dw -50
+                    times 2 dw -60
+                    times 2 dw -70
+                    times 2 dw -80
+                    times 2 dw -90
+                    dw -100, -120, -150, -200 
+                    dw -300, -400, -500, -600 
+                    dw -700, -700, -800, -800 
+                    times 8 dw -1000
 
-; 10 bytes
-arr_52EC:           db 0, 03Ch, 0AAh, 68h, 0, 96h, 0, 0C3h, 0AAh, 0F1h
+; 5 words
+arr_52EC:           dw 3C00h, 68AAh, 9600h, 0C300h, 0F1AAh
 
-; 158 bytes
-arr_52F6:           dw 19h, 19h, 1Eh, 1Eh
-                    dw 23h, 23h, 28h, 28h
-                    dw 2Ch, 30h, 34h, 38h
-                    dw 3Ch, 40h, 44h, 48h
-                    dw 4Bh, 4Eh, 51h, 54h
-                    dw 56h, 58h, 5Ah, 5Ch
-                    dw 5Eh, 5Fh, 60h, 60h
-                    dw 60h, 60h, 5Fh, 5Dh
-                    dw 5Bh, 58h, 55h, 52h
-                    dw 4Fh, 4Bh, 47h, 43h
-                    dw 3Fh, 3Bh, 36h, 32h
-                    dw 2Dh, 29h, 24h, 20h
-                    dw 1Bh, 17h, 13h, 0Eh
-                    dw 09h, 04h
-                    dw 0FFFFh, 0FFFAh, 0FFF5h, 0FFEEh, 0FFE7h 
-                    dw 0FFE0h, 0FFD8h, 0FFD1h, 0FFC9h, 0FFC2h 
-                    dw 0FFA6h, 0FF88h, 0FF4Ch, 0FF10h, 0FEA2h 
-                    dw 0FE70h, 0FE0Ch, 0FDA8h, 0FDA8h, 0FDA8h 
-                    dw 0FDA8h, 0FDA8h, 0FDA8h, 0FDA8h, 0FDA8h 
+; 79 words
+arr_52F6:           dw 25, 25, 30, 30, 35, 35, 40, 40, 44, 48
+                    dw 52, 56, 60, 64, 68, 72, 75, 78, 81, 84
+                    dw 86, 88, 90, 92, 94, 95, 96, 96, 96, 96
+                    dw 95, 93, 91, 88, 85, 82, 79, 75, 71, 67
+                    dw 63, 59, 54, 50, 45, 41, 36, 32, 27, 23
+                    dw 19, 14, 9, 4
+                    dw -1, -6, -11, -18, -25
+                    dw -32, -40, -47, -55, -62
+                    dw -90, -120, -180, -240, -350
+                    dw -400, -500, -600, -600, -600
+                    dw -600, -600, -600, -600, -600
 
-; 152 bytes
-arr_5394:           dw 0FFFBh, 0FFFBh, 0FFFBh, 0FFFBh
-                    dw 0FFFBh, 0FFFBh, 0FFFBh, 0FFFBh
-                    dw 0FFF6h, 0FFF6h, 0FFF6h, 0FFF6h
-                    dw 0FFF6h, 0FFF6h, 0FFF6h, 0FFF6h
-                    dw 0FFF1h, 0FFF1h, 0FFF1h, 0FFF1h
-                    dw 0FFF1h, 0FFF1h, 0FFF1h, 0FFF1h
-                    dw 0FFECh, 0FFECh, 0FFECh, 0FFECh
-                    dw 0FFECh, 0FFECh, 0FFECh, 0FFECh
-                    dw 0FFE7h, 0FFE7h, 0FFE7h, 0FFE7h
-                    dw 0FFE2h, 0FFE2h, 0FFE2h, 0FFE2h
-                    dw 0FFD8h, 0FFD8h, 0FFD8h, 0FFD8h
-                    dw 0FFCEh, 0FFCEh, 0FFCEh, 0FFCEh
-                    dw 0FFC9h, 0FFC9h, 0FFC4h, 0FFC4h
-                    dw 0FFBAh, 0FFBAh, 0FFB5h, 0FFB5h
-                    dw 0FFABh, 0FF9Ch, 0FF88h, 0FF74h
-                    dw 0FF60h, 0FF4Ch, 0FF38h, 0FED4h
-                    dw 0FE70h, 0FE0Ch, 0FDA8h, 0FD44h
-                    dw 0FCE0h, 0FC7Ch, 0FC18h, 0FC18h
-                    dw 0FC18h, 0FC18h, 0FC18h, 0FC18h
+; 76 words
+arr_5394:           times 8 dw -5
+                    times 8 dw -10
+                    times 8 dw -15
+                    times 8 dw -20
+                    times 4 dw -25
+                    times 4 dw -30
+                    times 4 dw -40
+                    times 4 dw -50
+                    times 2 dw -55
+                    times 2 dw -60
+                    times 2 dw -70
+                    times 2 dw -75
+                    dw -85, -100, -120, -140
+                    dw -160, -180, -200, -300
+                    dw -400, -500, -600, -700
+                    dw -800, -900
+                    times 6 dw -1000
 
-; 10 bytes
-arr_542C:           db 0AAh, 3Ch, 80h, 66h, 55h, 96h, 80h, 0C5h, 0D5h, 0F4h
+; 5 words
+arr_542C:           dw 3CAAh, 6680h, 9655h, 0C580h, 0F4D5h
 
-arr_5436:           dw 032h, 032h, 03Ch
-                    dw 03Ch, 046h, 046h
-                    dw 050h, 050h, 05Ah
-                    dw 064h, 06Eh, 078h
-                    dw 082h, 08Ch, 096h
-                    dw 0A0h, 0A5h, 0AAh
-                    dw 0B4h, 0B9h, 0BEh
-                    dw 0C3h, 0C8h, 0CDh
-                    dw 0D2h, 0D7h, 0DCh
-                    dw 0E1h, 0E6h, 0EBh
-                    dw 0F0h, 0F5h, 0FAh
-                    dw 0FFh
-                    db 4, 1, 9, 1, 9, 1, 4, 1
-                    dw 0FFh
-                    dw 0FAh, 0F5h, 0F0h
-                    dw 0EBh, 0E6h, 0E1h
-                    dw 0DCh, 0D7h, 0D2h
-                    dw 0CDh, 0C8h, 0C3h
-                    dw 0BEh, 0B9h, 0B4h
-                    dw 0AAh, 0A5h, 0A0h
-                    dw 096h, 08Ch, 082h
-                    dw 078h, 06Eh, 064h
-                    dw 05Ah, 050h, 050h
-                    dw 046h, 046h, 03Ch
-                    dw 03Ch, 032h, 032h
-                    dw 028h, 01Eh, 014h
-                    dw 0Ah
+; 76 words
+arr_5436:           dw 50, 50, 60, 60
+                    dw 70, 70, 80, 80
+                    dw 90, 100, 110, 120
+                    dw 130, 140, 150, 160
+                    dw 165, 170, 180, 185
+                    dw 190, 195, 200, 205
+                    dw 210, 215, 220, 225
+                    dw 230, 235, 240, 245
+                    dw 250, 255, 260, 265
+                    dw 265, 260, 255, 250
+                    dw 245, 240, 235, 230
+                    dw 225, 220, 215, 210
+                    dw 205, 200, 195, 190
+                    dw 185, 180, 170, 165
+                    dw 160, 150, 140, 130
+                    dw 120, 110, 100, 90
+                    dw 80, 80, 70, 70
+                    dw 60, 60, 50, 50
+                    dw 40, 30, 20, 10
 
 word_54CE:          dw ?                                    ; 54CE
 
@@ -2720,6 +2595,7 @@ word_638A:          dw ?                                    ; 638A
 word_638C:          dw ?                                    ; 638C
 word_638E:          dw ?                                    ; 638E
 word_6390:          dw ?                                    ; 6390
+
 word_6392:          dw ?                                    ; 6392
 word_6394:          dw ?                                    ; 6394
 word_6396:          dw ?                                    ; 6396
@@ -2738,6 +2614,7 @@ word_63AE:          dw ?                                    ; 63AE
 word_63B0:          dw ?                                    ; 63B0
 word_63B2:          dw ?                                    ; 63B2
 word_63B4:          dw ?                                    ; 63B4
+
 playing_demo:       dw ?                                    ; 63B6
 is_paused:          dw ?                                    ; 63B8
 word_63BA:          dw ?                                    ; 63BA
@@ -2762,4 +2639,4 @@ arr_8358:           rb 1704                                 ; 8358
 arr_C156:           rb 1034                                 ; C156
 arr_C560:           rb 8                                    ; C560
 arr_C568:           rw 512                                  ; C568
-                    rb 5104                                 ; C968
+arr_C968:           rb 5104                                 ; C968

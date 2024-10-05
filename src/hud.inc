@@ -75,7 +75,7 @@ loc_8E8C:
     ret
 
 loc_8EA0:
-    cmp     word [num_of_players], 0
+    cmp     word [is_2pl_mode], 0
     jz      ret_8ED6
     mov     di, word_4034
     mov     bp, p2_name
@@ -249,10 +249,10 @@ loc_8FA3:
 ;
 draw_race_info:
     mov     si, [word_3ED8]
-    mov     ax, 9A7h
+    mov     ax, 2471
     mul     word [si + 14]             ; 16 kmh = 01A9h
     ; 1 kmh ~= 20h
-    mov     ax, dx
+    mov     ax, dx                     ; speed = (si_14 * 2471) >> 16
     mov     ch, 1                      ; C01
     mov     bl, 10
     div     bl
@@ -532,7 +532,7 @@ loc_91A7:
     rep stosb                          ; bottom px
 
 loc_91D1:
-    cmp     word [num_of_players], 0
+    cmp     word [is_2pl_mode], 0
     je      ret_9241
 
     ; for 2PL mode draw status bar on who is ahead
@@ -746,7 +746,7 @@ off_92FD:   dw sub_9303, sub_9319, sub_9325
 sub_9303:
     push    bx
     mov     bx, [cs:word_D379]
-    mov     bx, [cs:bx - (0FFFFh - 1 - off_92FD)]
+    mov     bx, [cs:bx - (-2 - off_92FD)]
     mov     [cs:off_92FD], bx          ; off_92FD = off_92FD[bx]
     pop     bx
     jmp     word [cs:off_92FD]
@@ -1764,7 +1764,7 @@ loc_9BB6:
     mov     ax, [word_4026]
     cmp     ax, [word_2208]
     jz      loc_9BE9
-    cmp     word [num_of_players], 0
+    cmp     word [is_2pl_mode], 0
     jz      loc_9BED
     mov     ax, [word_4120]
     cmp     ax, [word_2208]

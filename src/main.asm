@@ -3,6 +3,7 @@
     entry   code_seg:start
 
 SCREEN_WIDTH = 336
+SCREEN_HEIGHT = 200
 VGA_DBL_BUF_START = SCREEN_WIDTH * 4 + 16
 
 segment code_seg use16
@@ -110,7 +111,7 @@ segment test_seg
 
 segment vga_dbl_buf_seg
 
-    rb 336 * 200 + VGA_DBL_BUF_START
+    rb VGA_DBL_BUF_START + SCREEN_WIDTH * SCREEN_HEIGHT
 
 segment arc_header_seg
 

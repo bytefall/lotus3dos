@@ -13,7 +13,7 @@ loc_CC27:
     mov     word [word_3C72], 0
     mov     bx, 0
     mov     cx, 0
-    cmp     word [num_of_players], 0
+    cmp     word [is_2pl_mode], 0
     jnz     loc_CC3E
     dec     cx
 
@@ -157,7 +157,7 @@ loc_CD89:
     shl     al, cl
     not     al
     and     bl, al
-    cmp     word [num_of_players], 0
+    cmp     word [is_2pl_mode], 0
     jz      loc_CDAF
     mov     cx, [word_4120]
     mov     al, 1
@@ -237,7 +237,7 @@ loc_CE1C:
     mov     bx, 0
 
 loc_CE2F:
-    mov     cx, 0FFFFh
+    mov     cx, -1
     cmp     word [is_circular_track], 0
     jnz     loc_CE3C
     mov     cx, 0
@@ -245,7 +245,7 @@ loc_CE2F:
 loc_CE3C:
     mov     si, word_3F3A
     call    sub_CEB9
-    cmp     word [num_of_players], 0
+    cmp     word [is_2pl_mode], 0
     jnz     loc_CE4C
     mov     bx, 0
 
@@ -276,8 +276,8 @@ loc_CE7F:
     mov     word [word_3CDA], 0
     mov     word [word_3CE4], 0
     mov     word [word_3CE6], 0
-    mov     word [word_3CEA], 0FFFFh
-    mov     word [word_3EE0], 0FF06h
+    mov     word [word_3CEA], -1
+    mov     word [word_3EE0], -250
     mov     word [word_3EE2], 0
     mov     word [word_3EE6], 0
     mov     word [word_3EEA], 0
@@ -289,8 +289,8 @@ loc_CE7F:
 ; CEB9:
 ;
 sub_CEB9:
-    mov     word [si + 222], 0FFFFh
-    mov     word [si + 224], 0FFFFh
+    mov     word [si + 222], -1
+    mov     word [si + 224], -1
     mov     [si + 218], cx
     mov     [si + 32], bx
     mov     word [si + 34], 0

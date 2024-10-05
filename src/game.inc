@@ -32,7 +32,7 @@ loc_525B:
     rep movsw                          ; for i in 0..4096 { word_63BE[i] = word_63BA[i] }
     pop     ds
     mov     word [word_3E22], 0
-    mov     word [playing_demo], 0FFFFh
+    mov     word [playing_demo], -1
     jmp     loc_5243
 
 loc_5283:
@@ -66,7 +66,7 @@ loc_52B4:
     jmp     loc_5240
 
 loc_52D5:
-    cmp     word [num_of_players], 0
+    cmp     word [is_2pl_mode], 0
     jz      loc_5303
     cmp     word [word_4116], 10
     ja      loc_52E6
@@ -81,7 +81,7 @@ loc_52E8:
     jmp     loc_5240
 
 loc_52F2:
-    cmp     word [num_of_players], 0
+    cmp     word [is_2pl_mode], 0
     jz      loc_5303
     cmp     word [word_404E], 2
     jnz     loc_5303
@@ -103,7 +103,7 @@ loc_530E:
     call    sub_4EAD
     pop     ax
     call    sub_4EE6
-    mov     ax, 20D0h
+    mov     ax, 8400
     call    sub_C002
     jmp     loc_5222
 
@@ -134,7 +134,7 @@ ret_5346:
 sub_5347:
     push    ds
     pop     es
-    mov     si, word_3EDA
+    mov     si, car_num
     mov     cx, arr_426E
     sub     cx, si
     mov     es, [word_63BE]
@@ -148,14 +148,14 @@ sub_5347:
 ;
 copy_demo_header:
     push    ds
-    mov     di, word_3EDA
+    mov     di, car_num
     mov     cx, arr_426E
     sub     cx, di                     ; cx = 0x426E - 0x3EDA = 0x394 = 916
     mov     ds, [word_63BE]
     mov     si, 0
     pop     es
     push    es
-    rep movsb                          ; for i in 0..916 { word_3EDA[i] = word_63BE[i] }
+    rep movsb                          ; for i in 0..916 { 3EDA[i] = 63BE[i] }
     pop     ds
     ret
 
@@ -212,12 +212,12 @@ sub_53AA:
     ;
     ; for i in (52..52 + 32) { word_3EEE[j++] = word_3EDA[i] }
     ;
-    mov     si, arr_3F2E               ; no change here since si = 0x3F2E already
+    mov     si, race_code
     jmp     loc_53FA
 
 is_a_gameplay:                         ; 53C6
     mov     si, game_code
-    mov     di, arr_3F2E
+    mov     di, race_code
     mov     cx, 12
     rep movsb
 
@@ -230,7 +230,7 @@ is_a_gameplay:                         ; 53C6
     mul     word [race_type]
     mov     si, ax
     add     si, [course_type]
-    mov     al, [si + 1F34h]
+    mov     al, [si + arr_1F34]
     add     ax, [word_1F28]
     mov     ah, 12
     mul     ah
@@ -243,7 +243,7 @@ loc_53FA:
     call    sub_D03E
     call    sub_A9D3
     mov     ax, 200
-    cmp     word [num_of_players], 0
+    cmp     word [is_2pl_mode], 0
     jz      loc_5414
     mov     ax, 96
 
@@ -275,7 +275,7 @@ loc_5442:
     mov     ax, 260h
     mov     bl, 0
     call    sub_50B4
-    cmp     word [num_of_players], 0
+    cmp     word [is_2pl_mode], 0
     jz      loc_5459
     mov     ax, 360h
     mov     bl, 0
@@ -284,19 +284,19 @@ loc_5442:
 loc_5459:
     cmp     word [word_63A4], 0
     jz      loc_5466
-    mov     ax, 170h
+    mov     ax, 368
     jmp     sub_50AC
 
 loc_5466:
     cmp     word [word_63B0], 0
     jz      loc_5473
-    mov     ax, 174h
+    mov     ax, 372
     jmp     sub_50AC
 
 loc_5473:
     cmp     word [word_63AA], 0
     jz      ret_5480
-    mov     ax, 171h
+    mov     ax, 369
     jmp     sub_50AC
 
 ret_5480:
@@ -335,7 +335,7 @@ loc_54BC:
 
 loc_54C1:
     mov     byte [byte_3DA1], 80h
-    mov     word [is_paused], 0FFFFh
+    mov     word [is_paused], -1
     mov     ah, 0
 
 loc_54CE:
@@ -365,7 +365,7 @@ loc_54FE:
     jmp     loc_532D
 
 loc_5508:
-    mov     word [word_1F95], 0FFFFh
+    mov     word [word_1F95], -1
     call    sub_D7E9
     test    byte [byte_3DA1], 1
     jz      loc_54FE
@@ -380,7 +380,7 @@ sub_5520:
     mov     si, word_3F3A
     mov     ch, 1
     call    sub_5670
-    cmp     word [num_of_players], 0
+    cmp     word [is_2pl_mode], 0
     jz      loc_5537
     mov     si, word_4034
     mov     ch, 2
@@ -397,7 +397,7 @@ loc_5537:
     dec     ax
     cmp     ax, 8
     jae     loc_555B
-    mov     ax, 6Fh
+    mov     ax, 111
     call    sub_50AC
 
 loc_555B:
@@ -407,18 +407,18 @@ loc_555B:
     dec     ax
     cmp     ax, 8
     jae     loc_5571
-    mov     ax, 6Fh
+    mov     ax, 111
     call    sub_50AC
 
 loc_5571:
     mov     ax, [word_3EE0]
     cmp     ax, 9
     jge     loc_5591
-    cmp     ax, 0FF6Ah
+    cmp     ax, -150
     je      loc_55DD
-    cmp     ax, 0FF9Ch
+    cmp     ax, -100
     je      loc_55DD
-    cmp     ax, 0FFCEh
+    cmp     ax, -50
     je      loc_55DD
     cmp     ax, 0
     jl      loc_5591
@@ -458,7 +458,7 @@ loc_55BF:
     jnz     loc_55E3
 
 loc_55DD:
-    mov     ax, 66h
+    mov     ax, 102
     call    sub_50AC
 
 loc_55E3:
@@ -812,13 +812,13 @@ sub_588E:
     inc     word [word_3EE2]
     inc     word [word_3CE8]
     cmp     word [word_4012], 1
-    sbb     word [word_4012], 0FFFFh
+    sbb     word [word_4012], -1
     cmp     word [word_410C], 1
-    sbb     word [word_410C], 0FFFFh
+    sbb     word [word_410C], -1
     cmp     word [word_3FE2], 1
-    adc     word [word_3FE2], 0FFFFh
+    adc     word [word_3FE2], -1
     cmp     word [word_40DC], 1
-    adc     word [word_40DC], 0FFFFh
+    adc     word [word_40DC], -1
     call    sub_57C6
     cmp     word [word_63A4], 0
     jz      loc_58D7
@@ -895,7 +895,7 @@ loc_5967:
     jns     loc_5981
     mov     si, word_3F3A
     call    sub_5B22
-    cmp     word [num_of_players], 0
+    cmp     word [is_2pl_mode], 0
     jz      loc_5981
     mov     si, word_4034
     call    sub_5B22
@@ -920,7 +920,7 @@ loc_599D:
     call    sub_644D
     mov     si, word_3F3A
     call    sub_6EFC
-    cmp     word [num_of_players], 0
+    cmp     word [is_2pl_mode], 0
     jz      loc_5A1A
     mov     si, word_4034
     call    sub_6EFC
@@ -956,7 +956,7 @@ loc_59ED:
     jnz     loc_5A1A
     mov     si, word_3F3A
     call    sub_64CE
-    cmp     word [num_of_players], 0
+    cmp     word [is_2pl_mode], 0
     jz      loc_5A11
     mov     si, word_4034
     call    sub_64CE
@@ -1981,7 +1981,7 @@ ret_6236:
 ; 6237:
 ;
 sub_6237:
-    cmp     word [num_of_players], 0
+    cmp     word [is_2pl_mode], 0
     jnz     loc_6241
     jmp     near ret_62C0
 
@@ -2197,7 +2197,7 @@ loc_641A:
 
 loc_643C:
     mov     ax, [word_3F5A]
-    cmp     word [num_of_players], 0
+    cmp     word [is_2pl_mode], 0
     jz      loc_644A
     or      ax, [word_4054]
 
@@ -2227,7 +2227,7 @@ loc_6464:
     mov     [word_401C], bp
 
 loc_647A:
-    cmp     word [num_of_players], 0
+    cmp     word [is_2pl_mode], 0
     jz      ret_64A7
     mov     ax, [word_4112]
     or      ax, [word_4114]
@@ -2468,7 +2468,7 @@ loc_6667:
 loc_6676:
     add     word [si + 222], 128
     jae     ret_6684
-    mov     word [si + 222], 0FFFFh
+    mov     word [si + 222], -1
 
 ret_6684:
     ret
@@ -2487,7 +2487,7 @@ loc_6690:
     and     ax, ax
     js      ret_66A2
     mov     [si + 228], ax
-    mov     word [si + 230], 0FFFFh
+    mov     word [si + 230], -1
 
 ret_66A2:
     ret
@@ -2571,7 +2571,7 @@ loc_673D:
     jz      loc_6755
     cmp     word [si + 196], 0
     jz      loc_6755
-    mov     bx, 0FFFFh
+    mov     bx, -1
     jmp     loc_6783
 
 loc_6755:
@@ -2628,7 +2628,7 @@ loc_67BC:
     and     ax, ax
     js      loc_67CD
     call    sub_514A
-    mov     word [si + 178], 0FFFFh
+    mov     word [si + 178], -1
 
 loc_67CD:
     cmp     word [word_63B0], 0
@@ -2892,7 +2892,7 @@ loc_6A04:
     mov     di, [word_2A5E]
 
 loc_6A13:
-    mov     word [si + 38], 0FFFFh
+    mov     word [si + 38], -1
 
 loc_6A18:
     shr     ax, 7
@@ -3170,7 +3170,7 @@ loc_6C78:
     mov     word [word_4012], 1
 
 loc_6C95:
-    cmp     word [num_of_players], 0
+    cmp     word [is_2pl_mode], 0
     jz      loc_6CEC
     mov     ax, [word_3CDA]
     mov     bp, [word_3CD8]
@@ -3312,7 +3312,7 @@ sub_6DA6:
     jnz     loc_6DFE
 
 loc_6DC2:
-    cmp     word [num_of_players], 0
+    cmp     word [is_2pl_mode], 0
     jz      loc_6DDE
     cmp     word [word_404E], 0
     jz      loc_6DFE
@@ -3328,7 +3328,7 @@ loc_6DDE:
     mov     ax, 2
 
 loc_6DEB:
-    cmp     word [num_of_players], 0
+    cmp     word [is_2pl_mode], 0
     jz      loc_6DFC
     cmp     word [word_4116], 11
     jae     loc_6DFC
@@ -3349,7 +3349,7 @@ loc_6E05:
     jz      loc_6E4B
     cmp     word [word_3F48], 0
     jnz     loc_6E4B
-    cmp     word [num_of_players], 0
+    cmp     word [is_2pl_mode], 0
     jz      loc_6E28
     cmp     word [word_404E], 0
     jz      loc_6E4B
@@ -3359,7 +3359,7 @@ loc_6E05:
 loc_6E28:
     cmp     word [word_3F54], 2
     jz      loc_6E44
-    cmp     word [num_of_players], 0
+    cmp     word [is_2pl_mode], 0
     jz      loc_6E3D
     cmp     word [word_404E], 2
     jz      loc_6E44
@@ -3435,7 +3435,7 @@ loc_6EA3:
     call    sub_6EBE
     mov     si, word_4034
     call    sub_6EBE
-    mov     word [word_1F95], 0FFFFh
+    mov     word [word_1F95], -1
 
 ret_6EBD:
     ret
@@ -3601,7 +3601,7 @@ loc_6FFE:
     call    brandish_the_flag
     call    draw_race_text
     call    sub_929A
-    cmp     word [num_of_players], 0
+    cmp     word [is_2pl_mode], 0
     je      loc_7038
     mov     word [word_3ED8], word_4034
     call    sub_70FE
@@ -3861,7 +3861,7 @@ sub_7229:
 
 
 loc_723E:
-    mov     di, 0C968h
+    mov     di, arr_C968
     push    ds
     pop     es
     mov     word [word_6382], arr_C568
@@ -3904,7 +3904,7 @@ loc_7275:
 
 loc_7298:
     sub     bx, bp
-    cmp     bx, 0FFFFh
+    cmp     bx, -1
     jz      loc_72B0
     js      loc_72C2
     shl     bx, 1
@@ -4083,7 +4083,7 @@ sub_73D5:
 ; 73F0:
 ;
 sub_73F0:
-    mov     si, 0C968h
+    mov     si, arr_C968
     mov     bp, bx
     shl     bx, 1
     add     si, bx
@@ -4445,7 +4445,7 @@ loc_769E:
     adc     ax, [word_1FA8]
     cmp     ax, [word_633A]
     mov     bx, ax
-    mov     ax, 0FFFFh
+    mov     ax, -1
     jb      loc_7703
 
 loc_76E0:
@@ -4612,7 +4612,7 @@ p2_draw_the_road:
 ; 7810:
 ;
 draw_the_road:
-    mov     word [word_6382], 0C968h
+    mov     word [word_6382], arr_C968
     mov     ax, [word_6366]
     mov     dx, [word_6368]
     cmp     word [is_circular_track], 0
@@ -4726,13 +4726,13 @@ loc_78CD:
 
 loc_795D:
     shr     bx, 10
-    add     bx, [1FACh]
-    mov     al, [bx + 1FAEh]
+    add     bx, [word_1FAC]
+    mov     al, [bx + word_1FAE]
     mov     cx, [si]
     add     cx, 160
     mov     si, [si + 2]
     shl     si, 1
-    mov     si, [si + 63C2h]
+    mov     si, [si + arr_63C2]
     and     si, si
     jz      loc_7980
     call    word [cs:off_7B6C]
@@ -4836,13 +4836,13 @@ loc_7AA7:
 
 loc_7AB2:
     shl     al, 3
-    add     bx, [1FACh]
-    add     al, [bx + 1FAEh]
+    add     bx, [word_1FAC]
+    add     al, [bx + word_1FAE]
     mov     cx, [si]
     add     cx, 160
     mov     si, [si + 2]
     shl     si, 1
-    mov     si, [si + 63C2h]
+    mov     si, [si + arr_63C2]
     and     si, si
     jz      loc_7AD5
     call    word [cs:off_7B6C]
@@ -6133,7 +6133,7 @@ off_83A3:   dw sub_83A9, sub_83BF, sub_83D2
 sub_83A9:
     push    bx
     mov     bx, [cs:word_D379]
-    mov     bx, [cs:bx - (0FFFFh - 1 - off_83A3)]
+    mov     bx, [cs:bx - (-2 - off_83A3)]
     mov     [cs:off_83A3], bx          ; off_83A3 = off_83A3[bx]
     pop     bx
     jmp     word [cs:off_83A3]
@@ -6233,7 +6233,7 @@ off_845B:   dw sub_8461, sub_8477, sub_84B4
 sub_8461:
     push    bx
     mov     bx, [cs:word_D379]
-    mov     bx, [cs:bx - (0FFFFh - 1 - off_845B)]
+    mov     bx, [cs:bx - (-2 - off_845B)]
     mov     [cs:off_845B], bx          ; off_845B = off_845B[bx]
     pop     bx
     jmp     word [cs:off_845B]
@@ -6373,9 +6373,9 @@ sub_853C:
 ; 853E: Draws objects: car, opponents, trees, obstacles.
 ;
 sub_853E:
-    mov     word [word_1FD2], 0FFFFh
-    mov     word [word_1FD4], 0FFFFh
-    mov     word [word_1FD6], 0FFFFh
+    mov     word [word_1FD2], -1
+    mov     word [word_1FD4], -1
+    mov     word [word_1FD6], -1
     mov     word [word_1FDC], 0
     mov     byte [byte_1F9F], 0
     mov     si, [word_3ED8]
@@ -6455,7 +6455,7 @@ loc_8619:
     inc     ax
     mov     [word_1FFC], ax
     mov     word [word_2006], 2
-    mov     word [word_2060], 0FFFFh
+    mov     word [word_2060], -1
     cmp     word [word_6396], 0
     jnz     loc_8636
     jmp     loc_86D6
@@ -6771,7 +6771,7 @@ loc_88B6:
     mov     word [word_637A], 0
     mov     di, [word_2D7C]
     mov     dx, 1400h
-    mov     word [word_2208], 0FFFFh
+    mov     word [word_2208], -1
     mov     word [word_2114], 0
     push    si
     call    sub_9A1E
@@ -6801,7 +6801,7 @@ loc_8923:
     sub     cx, 3
     mov     di, [word_2D80]
     mov     word [word_2114], 0
-    mov     word [word_2208], 0FFFFh
+    mov     word [word_2208], -1
     push    ax
     push    bx
     push    cx
@@ -6835,7 +6835,7 @@ loc_8982:
     sub     cx, 3
     mov     di, [word_2D80]
     mov     word [word_2114], 0
-    mov     word [word_2208], 0FFFFh
+    mov     word [word_2208], -1
     push    ax
     push    bx
     push    cx
@@ -6899,7 +6899,7 @@ loc_8A1D:
     mov     cx, [word_633A]
     sub     cx, 2
     mov     word [word_2114], 0
-    mov     word [word_2208], 0FFFFh
+    mov     word [word_2208], -1
     push    ax
     push    bx
     push    cx
@@ -6974,7 +6974,7 @@ loc_8ACD:
     sub     cx, 2
     mov     di, [word_2D7E]
     mov     word [word_2114], 0
-    mov     word [word_2208], 0FFFFh
+    mov     word [word_2208], -1
     push    ax
     push    bx
     push    cx
@@ -7001,7 +7001,7 @@ loc_8ACD:
     add     word [word_636E], 4
     mov     bx, 0FFDCh
     mov     word [word_2114], 0
-    mov     word [word_2208], 0FFFFh
+    mov     word [word_2208], -1
     push    ax
     push    bx
     push    cx
@@ -7053,7 +7053,7 @@ loc_8B7D:
 
 loc_8B9D:
     xchg    si, [word_637A]
-    mov     word [word_1FEE], 0FFFFh
+    mov     word [word_1FEE], -1
     ret
 
 
@@ -7092,7 +7092,7 @@ loc_8BAF:
     ret
 
 loc_8BED:
-    mov     word [word_1FFE], 0FFFFh
+    mov     word [word_1FFE], -1
     ret
 
 loc_8BF4:
@@ -7138,7 +7138,7 @@ loc_8C55:
     jz      loc_8BF4
 
 loc_8C5C:
-    mov     word [word_1FFE], 0FFFFh
+    mov     word [word_1FFE], -1
     ret
 
 
@@ -7188,7 +7188,7 @@ loc_8CAB:
     mov     bp, [di]
     mov     ax, [di + 2]
     add     di, 8
-    cmp     ax, 0FFFFh
+    cmp     ax, -1
     jnz     loc_8CCE
     cmp     bp, ax
     jz      loc_8CAB
@@ -7199,7 +7199,7 @@ loc_8CCE:
     jmp     loc_8C93
 
 loc_8CD5:
-    mov     word [word_2008], 0FFFFh
+    mov     word [word_2008], -1
     ret
 
 
@@ -7295,7 +7295,7 @@ loc_8DB0:
     ret
 
 loc_8DB5:
-    mov     ax, 0FFFFh
+    mov     ax, -1
     mov     [word_6354], ax
     ret
 
@@ -7336,5 +7336,5 @@ sub_8DBC:
     ret
 
 loc_8E07:
-    mov     word [word_1FF4], 0FFFFh
+    mov     word [word_1FF4], -1
     ret

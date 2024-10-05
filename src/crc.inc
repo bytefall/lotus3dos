@@ -67,7 +67,7 @@ loc_AA3D:
     loop    loc_AA3D
     add     di, 11
     add     si, 2
-    cmp     si, 1F4Eh
+    cmp     si, arr_1F40 + 7 * 2
     jb      loc_AA39
     mov     [word_2454], ax
     mov     [word_2456], dx
@@ -80,7 +80,7 @@ loc_AA73:
     stosw
     xchg    ax, dx
     loop    loc_AA73
-    mov     word [word_23FC], 8156h
+    mov     word [word_23FC], tmp_file_buf
     mov     word [word_23FE], 0
     cmp     word [is_circular_track], 0
     jnz     loc_AA95
@@ -157,7 +157,7 @@ loc_AB1A:
     add     si, 2
     dec     bp
     jnz     loc_AB1A
-    mov     word [si], 0FFFFh
+    mov     word [si], -1
     mov     ax, [word_635E]
     mov     [word_23F2], ax
     add     ax, 8

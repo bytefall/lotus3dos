@@ -9,7 +9,7 @@ sub_C95F:
     mov     si, arr48_3126
     push    ds
     pop     es
-    mov     di, 77F6h
+    mov     di, 77F6h                  ; TODO: palette + 224 * 3
     mov     cx, 48
     rep movsb
     ret

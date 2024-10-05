@@ -634,7 +634,7 @@ prep_cars_and_pals:
     mov     ah, 0FFh
     mov     [word_2E78], ax
     mov     word [word_2E7A], arr89_30A7
-    mov     si, [word_3EDA]
+    mov     si, [car_num]
     mov     al, [si + word_2E7E]
     mov     ah, 'S'                    ; sub_C505('S', 70, BE)
     call    bmp_load_and_prepare
@@ -677,7 +677,7 @@ loc_C8A0:
 
 loc_C8FA:
     mov     ax, 61
-    mul     word [word_3EDA]
+    mul     word [car_num]
     add     bx, ax
     push    ds
     pop     es
