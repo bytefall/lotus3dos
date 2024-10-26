@@ -1428,12 +1428,24 @@ word_2AE2:          dw ?                                    ; 2AE2
 word_2AE4:          dw ?                                    ; 2AE4
 word_2AE6:          dw ?                                    ; 2AE6
 word_2AE8:          dw ?                                    ; 2AE8
-arr_2AEA:           db 0, 22, 13, 3, 4, 5, 6, 31, 8, 9, 10, 11, 12 ; 2AEA
+arr_2AEA:           db (tr_forest_pal - tr_pal) / 64        ; 2AEA
+                    db (tr_night_pal - tr_pal) / 64
+                    db (tr_fog_pal - tr_pal) / 64
+                    db (tr_snow_pal - tr_pal) / 64
+                    db (tr_desert_pal - tr_pal) / 64
+                    db (tr_motorway_pal - tr_pal) / 64
+                    db (tr_marsh_pal - tr_pal) / 64
+                    db (tr_storm_pal - tr_pal) / 64
+                    db (tr_roadworks_pal - tr_pal) / 64
+                    db (tr_rally_pal - tr_pal) / 64
+                    db (tr_wind_pal - tr_pal) / 64
+                    db (tr_futuristic_pal - tr_pal) / 64
+                    db (tr_mountains_pal - tr_pal) / 64
 word_2AF7:          dw ?                                    ; 2AF7
 word_2AF9:          dw ?                                    ; 2AF9
                     db ?                                    ; 2AFB
 word_2AFC:          dw ?                                    ; 2AFC
-word_2AFE:          dw ?                                    ; 2AFE
+palette_ptr:        dw ?                                    ; 2AFE
 byte_2B00:          db ?                                    ; 2B00
                     db ?                                    ; 2B01
 word_2B02:          dw ?                                    ; 2B02
@@ -2275,179 +2287,272 @@ arr_5436:           dw 50, 50, 60, 60
 
 word_54CE:          dw ?                                    ; 54CE
 
-arr_5490:           ; 54D0: Forest (192 bytes)
-                    dw 0230h, 0221h, 0CCCh, 0, 0340h, 0331h, 0331h, 0
-                    dw 0347h, 0347h, 0347h, 0, 0347h, 0347h, 0347h, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0230h, 0CCCh, 0CCCh, 0, 0340h, 0CCCh, 0CCCh, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    ; 5590: Snow (64 bytes)
-                    dw 0DDDh, 0999h, 0888h, 0, 0BCEh, 078Ah, 0679h, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0CCCh, 0BBBh, 0BBBh, 0, 0ABDh, 0BBBh, 0BBBh, 0
-                    ; 55D0: Desert (64 bytes)
-                    dw 0875h, 0764h, 0653h, 0, 0765h, 0654h, 0543h, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0765h, 0654h, 0543h, 0, 0765h, 0654h, 0543h, 0
-                    ; 5610: MotorWay (64 bytes)
-                    dw 0142h, 0232h, 0CCCh, 0, 0152h, 0343h, 0343h, 0
-                    dw 0, 0121h, 0888h, 0, 0, 0232h, 0232h, 0
-                    dw 0232h, 0232h, 0232h, 0, 0232h, 0232h, 0232h, 0
-                    dw 0142h, 0CCCh, 0CCCh, 0, 0152h, 0CCCh, 0CCCh, 0
-                    ; 5650: Marsh (128)
-                    dw 0032h, 0212h, 098Ah, 0, 0042h, 0323h, 0323h, 0
-                    dw 0134h, 0134h, 0134h, 0, 0134h, 0134h, 0134h, 0
-                    dw 0134h, 0212h, 098Ah, 0, 0134h, 0323h, 0323h, 0
-                    dw 0032h, 098Ah, 098Ah, 0, 0042h, 098Ah, 098Ah, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    ; 56D0: Roadworks (64)
-                    dw 0660h, 0666h, 0CCCh, 0, 0760h, 0766h, 0766h, 0
-                    dw 0, 0444h, 0888h, 0, 0, 0544h, 0544h, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0660h, 0CCCh, 0CCCh, 0, 0760h, 0CCCh, 0CCCh, 0
-                    ; 5710: Rally (64)
-                    dw 0430h, 0420h, 0520h, 0, 0530h, 0520h, 0420h, 0
-                    dw 0054h, 0054h, 0054h, 0, 0054h, 0054h, 0054h, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0430h, 0CCCh, 0CCCh, 0, 0530h, 0CCCh, 0CCCh, 0
-                    ; 5750: Wind (64)
-                    dw 0240h, 0343h, 0CCCh, 0, 0351h, 0454h, 0454h, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0240h, 0CCCh, 0CCCh, 0, 0351h, 0CCCh, 0CCCh, 0
-                    ; 5790: Futuristic (64)
-                    dw 0340h, 0554h, 0443h, 0, 0350h, 0443h, 0554h, 0
-                    dw 0, 0332h, 0221h, 0, 0, 0221h, 0332h, 0
-                    dw 0340h, 0943h, 0732h, 0, 0350h, 0732h, 0943h, 0
-                    dw 0340h, 0877h, 0111h, 0, 0350h, 0111h, 0877h, 0
-                    ; 57D0: Mountains (64)
-                    dw 0EEEh, 0CCCh, 0343h, 0, 0454h, 0CCCh, 0454h, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0EEEh, 0CCCh, 0EEEh, 0, 0454h, 0CCCh, 0454h, 0
-                    ; 5810: Fog (576)
-                    dw 0230h, 0111h, 0CCCh, 0, 0242h, 0121h, 0121h, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0230h, 0CCCh, 0CCCh, 0, 0242h, 0CCCh, 0CCCh, 0
-                    dw 0230h, 0111h, 0CCCh, 0, 0242h, 0121h, 0121h, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0230h, 0CCCh, 0CCCh, 0, 0242h, 0CCCh, 0CCCh, 0
-                    dw 0341h, 0222h, 0BBBh, 0, 0353h, 0232h, 0232h, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0341h, 0BBBh, 0BBBh, 0, 0353h, 0BBBh, 0BBBh, 0
-                    dw 0341h, 0222h, 0AAAh, 0, 0353h, 0232h, 0232h, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0341h, 0AAAh, 0AAAh, 0, 0353h, 0AAAh, 0AAAh, 0
-                    dw 0452h, 0333h, 0999h, 0, 0464h, 0343h, 0343h, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0452h, 0999h, 0999h, 0, 0464h, 0999h, 0999h, 0
-                    dw 0452h, 0333h, 0999h, 0, 0464h, 0343h, 0343h, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0452h, 0999h, 0999h, 0, 0464h, 0999h, 0999h, 0
-                    dw 0564h, 0444h, 0888h, 0, 0565h, 0454h, 0454h, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0564h, 0888h, 0888h, 0, 0565h, 0888h, 0888h, 0
-                    dw 0665h, 0555h, 0777h, 0, 0666h, 0565h, 0565h, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0665h, 0777h, 0777h, 0, 0666h, 0777h, 0777h, 0
-                    dw 0666h, 0666h, 0666h, 0, 0666h, 0666h, 0666h, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0666h, 0666h, 0666h, 0, 0666h, 0666h, 0666h, 0
-                    ; 5A50: Night (576)
-                    dw 0453h, 0554h, 0CCCh, 0, 0353h, 0555h, 0555h, 0
-                    dw 0, 0554h, 0CCCh, 0, 0, 0555h, 0555h, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0453h, 0CCCh, 0CCCh, 0, 0353h, 0CCCh, 0CCCh, 0
-                    dw 0342h, 0554h, 0BBBh, 0, 0242h, 0555h, 0555h, 0
-                    dw 0, 0554h, 0CCCh, 0, 0, 0555h, 0555h, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0342h, 0BBBh, 0BBBh, 0, 0242h, 0BBBh, 0BBBh, 0
-                    dw 0342h, 0443h, 0AAAh, 0, 0242h, 0444h, 0444h, 0
-                    dw 0, 0554h, 0CCCh, 0, 0, 0555h, 0555h, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0342h, 0AAAh, 0AAAh, 0, 0242h, 0AAAh, 0AAAh, 0
-                    dw 0231h, 0443h, 0999h, 0, 0131h, 0444h, 0444h, 0
-                    dw 0, 0554h, 0CCCh, 0, 0, 0555h, 0555h, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0231h, 0999h, 0999h, 0, 0131h, 0999h, 0999h, 0
-                    dw 0231h, 0332h, 0777h, 0, 0131h, 0333h, 0333h, 0
-                    dw 0, 0554h, 0CCCh, 0, 0, 0555h, 0555h, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0231h, 0777h, 0777h, 0, 0131h, 0777h, 0777h, 0
-                    dw 0231h, 0332h, 0555h, 0, 0131h, 0333h, 0333h, 0
-                    dw 0, 0554h, 0CCCh, 0, 0, 0555h, 0555h, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0231h, 0555h, 0555h, 0, 0131h, 0555h, 0555h, 0
-                    dw 0120h, 0221h, 0333h, 0, 0020h, 0222h, 0333h, 0
-                    dw 0, 0554h, 0CCCh, 0, 0, 0555h, 0555h, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0120h, 0333h, 0333h, 0, 0020h, 0333h, 0333h, 0
-                    dw 0010h, 0110h, 0111h, 0, 0010h, 0111h, 0111h, 0
-                    dw 0, 0554h, 0CCCh, 0, 0, 0555h, 0555h, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0010h, 0222h, 0111h, 0, 0010h, 0222h, 0111h, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0, 0554h, 0CCCh, 0, 0, 0555h, 0555h, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0, 0111h, 0, 0, 0, 0111h, 0, 0
-                    ; 5C90: Storm (576)
-                    dw 0012h, 0024h, 0CCCh, 0, 0010h, 0123h, 0123h, 0
-                    dw 0037h, 0037h, 0037h, 0, 0037h, 0037h, 0037h, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0012h, 0CCCh, 0CCCh, 0, 0010h, 0CCCh, 0CCCh, 0
-                    dw 0012h, 0024h, 0BBCh, 0, 0010h, 0123h, 0123h, 0
-                    dw 0037h, 0037h, 0037h, 0, 0037h, 0037h, 0037h, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0012h, 0BBCh, 0BBCh, 0, 0010h, 0BBCh, 0BBCh, 0
-                    dw 0012h, 0024h, 0ABCh, 0, 0010h, 0123h, 0123h, 0
-                    dw 0037h, 0037h, 0037h, 0, 0037h, 0037h, 0037h, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0012h, 0ABCh, 0ABCh, 0, 0010h, 0ABCh, 0ABCh, 0
-                    dw 0012h, 0024h, 08ABh, 0, 0010h, 0123h, 0123h, 0
-                    dw 0037h, 0037h, 0037h, 0, 0037h, 0037h, 0037h, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0012h, 08ABh, 08ABh, 0, 0010h, 08ABh, 08ABh, 0
-                    dw 0012h, 0024h, 079Ah, 0, 0010h, 0123h, 0123h, 0
-                    dw 0037h, 0037h, 0037h, 0, 0037h, 0037h, 0037h, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0012h, 079Ah, 079Ah, 0, 0010h, 079Ah, 079Ah, 0
-                    dw 0012h, 0024h, 0689h, 0, 0010h, 0123h, 0123h, 0
-                    dw 0037h, 0037h, 0037h, 0, 0037h, 0037h, 0037h, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0012h, 0689h, 0689h, 0, 0010h, 0689h, 0689h, 0
-                    dw 0012h, 0024h, 0578h, 0, 0010h, 0123h, 0123h, 0
-                    dw 0037h, 0037h, 0037h, 0, 0037h, 0037h, 0037h, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0012h, 0578h, 0578h, 0, 0010h, 0578h, 0578h, 0
-                    dw 0012h, 0024h, 0467h, 0, 0010h, 0123h, 0123h, 0
-                    dw 0037h, 0037h, 0037h, 0, 0037h, 0037h, 0037h, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0012h, 0467h, 0467h, 0, 0010h, 0467h, 0467h, 0
-                    dw 0012h, 0024h, 0356h, 0, 0010h, 0123h, 0123h, 0
-                    dw 0037h, 0037h, 0037h, 0, 0037h, 0037h, 0037h, 0
-                    dw 0, 0, 0, 0, 0, 0, 0, 0
-                    dw 0012h, 0356h, 0356h, 0, 0010h, 0356h, 0356h, 0
+; each word contains 0RGBh color
+; values are: outer stripe, inner stripe, road markings, 0 (zero word)
+; e.g. 0CCCh is a white color
+tr_pal:
+tr_forest_pal:      ; 54D0: Forest (192 bytes)
+                    dw 0230h, 0221h, 0CCCh, 0               ; stripe 1
+                    dw 0340h, 0331h, 0331h, 0               ; stripe 2
+                    dw 0347h, 0347h, 0347h, 0               ; ?
+                    dw 0347h, 0347h, 0347h, 0               ; water
+                    times 4 * 2 dw 0
+                    dw 0230h, 0CCCh, 0CCCh, 0               ; finish
+                    dw 0340h, 0CCCh, 0CCCh, 0               ; ?
+                    times 4 * 16 dw 0
+
+tr_snow_pal:        ; 5590: Snow (64 bytes)
+                    dw 0DDDh, 0999h, 0888h, 0
+                    dw 0BCEh, 078Ah, 0679h, 0
+                    times 4 * 4 dw 0
+                    dw 0CCCh, 0BBBh, 0BBBh, 0
+                    dw 0ABDh, 0BBBh, 0BBBh, 0
+
+tr_desert_pal:      ; 55D0: Desert (64 bytes)
+                    dw 0875h, 0764h, 0653h, 0
+                    dw 0765h, 0654h, 0543h, 0
+                    times 4 * 4 dw 0
+                    dw 0765h, 0654h, 0543h, 0
+                    dw 0765h, 0654h, 0543h, 0
+
+tr_motorway_pal:    ; 5610: MotorWay (64 bytes)
+                    dw 0142h, 0232h, 0CCCh, 0
+                    dw 0152h, 0343h, 0343h, 0
+                    dw 0, 0121h, 0888h, 0
+                    dw 0, 0232h, 0232h, 0
+                    dw 0232h, 0232h, 0232h, 0
+                    dw 0232h, 0232h, 0232h, 0
+                    dw 0142h, 0CCCh, 0CCCh, 0
+                    dw 0152h, 0CCCh, 0CCCh, 0
+
+tr_marsh_pal:       ; 5650: Marsh (128)
+                    dw 0032h, 0212h, 098Ah, 0
+                    dw 0042h, 0323h, 0323h, 0
+                    dw 0134h, 0134h, 0134h, 0
+                    dw 0134h, 0134h, 0134h, 0
+                    dw 0134h, 0212h, 098Ah, 0
+                    dw 0134h, 0323h, 0323h, 0
+                    dw 0032h, 098Ah, 098Ah, 0
+                    dw 0042h, 098Ah, 098Ah, 0
+                    times 4 * 8 dw 0
+
+tr_roadworks_pal:   ; 56D0: Roadworks (64)
+                    dw 0660h, 0666h, 0CCCh, 0
+                    dw 0760h, 0766h, 0766h, 0
+                    dw 0, 0444h, 0888h, 0
+                    dw 0, 0544h, 0544h, 0
+                    times 4 * 2 dw 0
+                    dw 0660h, 0CCCh, 0CCCh, 0
+                    dw 0760h, 0CCCh, 0CCCh, 0
+
+tr_rally_pal:       ; 5710: Rally (64)
+                    dw 0430h, 0420h, 0520h, 0
+                    dw 0530h, 0520h, 0420h, 0
+                    dw 0054h, 0054h, 0054h, 0
+                    dw 0054h, 0054h, 0054h, 0
+                    times 4 * 2 dw 0
+                    dw 0430h, 0CCCh, 0CCCh, 0
+                    dw 0530h, 0CCCh, 0CCCh, 0
+
+tr_wind_pal:        ; 5750: Wind (64)
+                    dw 0240h, 0343h, 0CCCh, 0
+                    dw 0351h, 0454h, 0454h, 0
+                    times 4 * 4 dw 0
+                    dw 0240h, 0CCCh, 0CCCh, 0
+                    dw 0351h, 0CCCh, 0CCCh, 0
+
+tr_futuristic_pal:  ; 5790: Futuristic (64)
+                    dw 0340h, 0554h, 0443h, 0
+                    dw 0350h, 0443h, 0554h, 0
+                    dw 0, 0332h, 0221h, 0
+                    dw 0, 0221h, 0332h, 0
+                    dw 0340h, 0943h, 0732h, 0
+                    dw 0350h, 0732h, 0943h, 0
+                    dw 0340h, 0877h, 0111h, 0
+                    dw 0350h, 0111h, 0877h, 0
+
+tr_mountains_pal:   ; 57D0: Mountains (64)
+                    dw 0EEEh, 0CCCh, 0343h, 0
+                    dw 0454h, 0CCCh, 0454h, 0
+                    times 4 * 4 dw 0
+                    dw 0EEEh, 0CCCh, 0EEEh, 0
+                    dw 0454h, 0CCCh, 0454h, 0
+
+tr_fog_pal:         ; 5810: Fog (576)
+                    dw 0230h, 0111h, 0CCCh, 0
+                    dw 0242h, 0121h, 0121h, 0
+                    times 4 * 4 dw 0
+                    dw 0230h, 0CCCh, 0CCCh, 0
+                    dw 0242h, 0CCCh, 0CCCh, 0
+                    dw 0230h, 0111h, 0CCCh, 0
+                    dw 0242h, 0121h, 0121h, 0
+                    times 4 * 4 dw 0
+                    dw 0230h, 0CCCh, 0CCCh, 0
+                    dw 0242h, 0CCCh, 0CCCh, 0
+                    dw 0341h, 0222h, 0BBBh, 0
+                    dw 0353h, 0232h, 0232h, 0
+                    times 4 * 4 dw 0
+                    dw 0341h, 0BBBh, 0BBBh, 0
+                    dw 0353h, 0BBBh, 0BBBh, 0
+                    dw 0341h, 0222h, 0AAAh, 0
+                    dw 0353h, 0232h, 0232h, 0
+                    times 4 * 4 dw 0
+                    dw 0341h, 0AAAh, 0AAAh, 0
+                    dw 0353h, 0AAAh, 0AAAh, 0
+                    dw 0452h, 0333h, 0999h, 0
+                    dw 0464h, 0343h, 0343h, 0
+                    times 4 * 4 dw 0
+                    dw 0452h, 0999h, 0999h, 0
+                    dw 0464h, 0999h, 0999h, 0
+                    dw 0452h, 0333h, 0999h, 0
+                    dw 0464h, 0343h, 0343h, 0
+                    times 4 * 4 dw 0
+                    dw 0452h, 0999h, 0999h, 0
+                    dw 0464h, 0999h, 0999h, 0
+                    dw 0564h, 0444h, 0888h, 0
+                    dw 0565h, 0454h, 0454h, 0
+                    times 4 * 4 dw 0
+                    dw 0564h, 0888h, 0888h, 0
+                    dw 0565h, 0888h, 0888h, 0
+                    dw 0665h, 0555h, 0777h, 0
+                    dw 0666h, 0565h, 0565h, 0
+                    times 4 * 4 dw 0
+                    dw 0665h, 0777h, 0777h, 0
+                    dw 0666h, 0777h, 0777h, 0
+                    dw 0666h, 0666h, 0666h, 0
+                    dw 0666h, 0666h, 0666h, 0
+                    times 4 * 4 dw 0
+                    dw 0666h, 0666h, 0666h, 0
+                    dw 0666h, 0666h, 0666h, 0
+
+tr_night_pal:       ; 5A50: Night (576)
+                    dw 0453h, 0554h, 0CCCh, 0
+                    dw 0353h, 0555h, 0555h, 0
+                    dw 0, 0554h, 0CCCh, 0
+                    dw 0, 0555h, 0555h, 0
+                    times 4 * 2 dw 0
+                    dw 0453h, 0CCCh, 0CCCh, 0
+                    dw 0353h, 0CCCh, 0CCCh, 0
+                    dw 0342h, 0554h, 0BBBh, 0
+                    dw 0242h, 0555h, 0555h, 0
+                    dw 0, 0554h, 0CCCh, 0
+                    dw 0, 0555h, 0555h, 0
+                    times 4 * 2 dw 0
+                    dw 0342h, 0BBBh, 0BBBh, 0
+                    dw 0242h, 0BBBh, 0BBBh, 0
+                    dw 0342h, 0443h, 0AAAh, 0
+                    dw 0242h, 0444h, 0444h, 0
+                    dw 0, 0554h, 0CCCh, 0
+                    dw 0, 0555h, 0555h, 0
+                    times 4 * 2 dw 0
+                    dw 0342h, 0AAAh, 0AAAh, 0
+                    dw 0242h, 0AAAh, 0AAAh, 0
+                    dw 0231h, 0443h, 0999h, 0
+                    dw 0131h, 0444h, 0444h, 0
+                    dw 0, 0554h, 0CCCh, 0
+                    dw 0, 0555h, 0555h, 0
+                    times 4 * 2 dw 0
+                    dw 0231h, 0999h, 0999h, 0
+                    dw 0131h, 0999h, 0999h, 0
+                    dw 0231h, 0332h, 0777h, 0
+                    dw 0131h, 0333h, 0333h, 0
+                    dw 0, 0554h, 0CCCh, 0
+                    dw 0, 0555h, 0555h, 0
+                    times 4 * 2 dw 0
+                    dw 0231h, 0777h, 0777h, 0
+                    dw 0131h, 0777h, 0777h, 0
+                    dw 0231h, 0332h, 0555h, 0
+                    dw 0131h, 0333h, 0333h, 0
+                    dw 0, 0554h, 0CCCh, 0
+                    dw 0, 0555h, 0555h, 0
+                    times 4 * 2 dw 0
+                    dw 0231h, 0555h, 0555h, 0
+                    dw 0131h, 0555h, 0555h, 0
+                    dw 0120h, 0221h, 0333h, 0
+                    dw 0020h, 0222h, 0333h, 0
+                    dw 0, 0554h, 0CCCh, 0
+                    dw 0, 0555h, 0555h, 0
+                    times 4 * 2 dw 0
+                    dw 0120h, 0333h, 0333h, 0
+                    dw 0020h, 0333h, 0333h, 0
+                    dw 0010h, 0110h, 0111h, 0
+                    dw 0010h, 0111h, 0111h, 0
+                    dw 0, 0554h, 0CCCh, 0
+                    dw 0, 0555h, 0555h, 0
+                    times 4 * 2 dw 0
+                    dw 0010h, 0222h, 0111h, 0
+                    dw 0010h, 0222h, 0111h, 0
+                    times 4 * 2 dw 0
+                    dw 0, 0554h, 0CCCh, 0
+                    dw 0, 0555h, 0555h, 0
+                    times 4 * 2 dw 0
+                    dw 0, 0111h, 0, 0
+                    dw 0, 0111h, 0, 0
+
+tr_storm_pal:       ; 5C90: Storm (576)
+                    dw 0012h, 0024h, 0CCCh, 0
+                    dw 0010h, 0123h, 0123h, 0
+                    dw 0037h, 0037h, 0037h, 0
+                    dw 0037h, 0037h, 0037h, 0
+                    times 4 * 2 dw 0
+                    dw 0012h, 0CCCh, 0CCCh, 0
+                    dw 0010h, 0CCCh, 0CCCh, 0
+                    dw 0012h, 0024h, 0BBCh, 0
+                    dw 0010h, 0123h, 0123h, 0
+                    dw 0037h, 0037h, 0037h, 0
+                    dw 0037h, 0037h, 0037h, 0
+                    times 4 * 2 dw 0
+                    dw 0012h, 0BBCh, 0BBCh, 0
+                    dw 0010h, 0BBCh, 0BBCh, 0
+                    dw 0012h, 0024h, 0ABCh, 0
+                    dw 0010h, 0123h, 0123h, 0
+                    dw 0037h, 0037h, 0037h, 0
+                    dw 0037h, 0037h, 0037h, 0
+                    times 4 * 2 dw 0
+                    dw 0012h, 0ABCh, 0ABCh, 0
+                    dw 0010h, 0ABCh, 0ABCh, 0
+                    dw 0012h, 0024h, 08ABh, 0
+                    dw 0010h, 0123h, 0123h, 0
+                    dw 0037h, 0037h, 0037h, 0
+                    dw 0037h, 0037h, 0037h, 0
+                    times 4 * 2 dw 0
+                    dw 0012h, 08ABh, 08ABh, 0
+                    dw 0010h, 08ABh, 08ABh, 0
+                    dw 0012h, 0024h, 079Ah, 0
+                    dw 0010h, 0123h, 0123h, 0
+                    dw 0037h, 0037h, 0037h, 0
+                    dw 0037h, 0037h, 0037h, 0
+                    times 4 * 2 dw 0
+                    dw 0012h, 079Ah, 079Ah, 0
+                    dw 0010h, 079Ah, 079Ah, 0
+                    dw 0012h, 0024h, 0689h, 0
+                    dw 0010h, 0123h, 0123h, 0
+                    dw 0037h, 0037h, 0037h, 0
+                    dw 0037h, 0037h, 0037h, 0
+                    times 4 * 2 dw 0
+                    dw 0012h, 0689h, 0689h, 0
+                    dw 0010h, 0689h, 0689h, 0
+                    dw 0012h, 0024h, 0578h, 0
+                    dw 0010h, 0123h, 0123h, 0
+                    dw 0037h, 0037h, 0037h, 0
+                    dw 0037h, 0037h, 0037h, 0
+                    times 4 * 2 dw 0
+                    dw 0012h, 0578h, 0578h, 0
+                    dw 0010h, 0578h, 0578h, 0
+                    dw 0012h, 0024h, 0467h, 0
+                    dw 0010h, 0123h, 0123h, 0
+                    dw 0037h, 0037h, 0037h, 0
+                    dw 0037h, 0037h, 0037h, 0
+                    times 4 * 2 dw 0
+                    dw 0012h, 0467h, 0467h, 0
+                    dw 0010h, 0467h, 0467h, 0
+                    dw 0012h, 0024h, 0356h, 0
+                    dw 0010h, 0123h, 0123h, 0
+                    dw 0037h, 0037h, 0037h, 0
+                    dw 0037h, 0037h, 0037h, 0
+                    times 4 * 2 dw 0
+                    dw 0012h, 0356h, 0356h, 0
+                    dw 0010h, 0356h, 0356h, 0
 
 arr_5ED0:           dw 00Eh, 012h, 017h, 01Bh, 01Fh, 024h, 027h, 02Dh
                     dw 030h, 034h, 039h, 03Eh, 041h, 044h, 048h, 04Ch
@@ -2456,6 +2561,8 @@ arr_5ED0:           dw 00Eh, 012h, 017h, 01Bh, 01Fh, 024h, 027h, 02Dh
                     dw 098h, 09Ch, 0A1h, 0A5h, 0AAh, 0AEh, 0B3h, 0B8h
                     dw 0BCh, 0C0h, 0C4h, 0C8h, 0CCh, 0D0h, 0D5h, 0D9h
                     dw 0DEh, 0E2h, 0E6h, 0EAh, 0EEh, 0F3h, 0F7h, 0FBh
+
+ARR_5ED0_LEN = ($ - arr_5ED0) / 2
 
 arr_5F40:           db -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 16, 16, 15, 15, 14, 14
                     db 13, 13, 13, 13, 12, 12, 12, 12, 11, 11, 11, 11, 10, 10, 10, 10

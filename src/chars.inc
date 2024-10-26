@@ -681,7 +681,7 @@ loc_C8FA:
     add     bx, ax
     push    ds
     pop     es
-    mov     di, [word_2AFE]
+    mov     di, [palette_ptr]
     mov     dl, 17
     mov     dh, 0
 
@@ -707,7 +707,7 @@ loc_C913:
 loc_C930:
     dec     dl
     jnz     loc_C90D
-    mov     [word_2AFE], di
+    mov     [palette_ptr], di
     ret
 
 

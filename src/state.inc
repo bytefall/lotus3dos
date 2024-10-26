@@ -68,8 +68,8 @@ loc_CC8A:
     mov     bp, 0
     mov     di, [word_4E78]
     add     di, 40
-    mov     word [word_637A], 3CD8h
-    mov     si, 417Eh
+    mov     word [word_637A], word_3CD8
+    mov     si, arr_417E
 
 loc_CCC8:
     xchg    si, [word_637A]

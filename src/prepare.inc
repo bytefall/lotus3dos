@@ -2401,7 +2401,7 @@ loc_BEF4:
     mov     bx, [track_num]
     mov     al, 64
     mul     byte [bx + arr_2AEA]
-    add     ax, 54D0h
+    add     ax, tr_pal
 
 loc_BF1D:
     mov     [word_54CE], ax

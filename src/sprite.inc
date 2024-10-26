@@ -151,7 +151,7 @@ loc_C12F:
     mov     [word_6342], ax
     call    sub_C155
     inc     word [word_6346]
-    cmp     word [word_6346], 56
+    cmp     word [word_6346], ARR_5ED0_LEN
     jnz     loc_C12F
     add     si, 15
     shr     si, 4
@@ -225,7 +225,7 @@ sub_C1CB:
     mov     al, 3Fh                    ; scan pallete for value 0x3F
     repne scasb
     dec     di
-    mov     [word_2AFE], di            ; word_2AFE = pos of 0x3F in palette
+    mov     [palette_ptr], di          ; position of 0x3F in palette
     mov     ax, di
     sub     ax, palette
     mov     cl, 3
@@ -254,9 +254,9 @@ loc_C20E:
     jz      loc_C231
 
 loc_C21D:
-    mov     di, [word_2AFE]
+    mov     di, [palette_ptr]
     call    sub_C2A8
-    mov     [word_2AFE], di
+    mov     [palette_ptr], di
     mov     al, [byte_2B00]
     inc     byte [byte_2B00]           ; increment since in sub_C2A8 we've added 3 more colors
     jmp     loc_C23E
